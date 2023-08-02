@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/Inter-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 700; /* bold */
+  font-style: normal;
+  src: url("/fonts/Inter-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: italic;
+  src: url("/fonts/Inter-Italic.woff2") format("woff2");
+}
+
+body {
+  @apply font-inter;
+}
