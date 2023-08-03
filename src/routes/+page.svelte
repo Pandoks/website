@@ -1,10 +1,10 @@
-<div>
+<p>
   Sint excepteur nulla et incididunt consectetur fugiat minim aliqua. Officia
   irure sunt esse est sint dolore sint. Nisi ut ex aliquip ullamco ut. Nulla
   eiusmod reprehenderit tempor quis esse ut quis aute minim pariatur aute sunt
   amet aliqua. Laboris voluptate est adipisicing deserunt velit nisi officia non
   eu sit aliqua.
-</div>
+</p>
 
 <svelte:head>
   <title>Jason Kwok</title>
