@@ -1,4 +1,4 @@
-<div class="text-xs text-[#2b2b2b]">
+<div class="text-xs text-[#2b2b2b] ml-3 sm:ml-5 md:ml-7 lg:ml-9 xl:ml-10">
   <p>
     Nisi eu labore nulla et quis adipisicing nostrud ea veniam ipsum Lorem ad
     minim sunt id. Laborum voluptate nostrud ex pariatur laborum sunt culpa elit
