@@ -1,4 +1,4 @@
-<div class="pl-10 w-[45%] text-xs text-[#2b2b2b]">
+<div class="pl-10 w-[45vw] text-xs text-[#2b2b2b]">
   <p>
     voluptate ea. Eu esse reprehenderit fugiat proident amet do nisi ex aliquip
     Lorem minim exercitation. Irure occaecat nisi nostrud excepteur id est

@@ -10,9 +10,9 @@
   ];
 </script>
 
-<div class="flex items-center h-screen">
+<div class="mx-auto mt-[27vh] w-[70vw] sm:w-[40vw]">
   <nav
-    class="flex fixed flex-col space-y-3 w-1/3 text-base font-medium text-right text-gray-500 no-underline"
+    class="flex fixed flex-col space-y-3 text-base font-medium text-right text-gray-500 no-underline"
   >
     {#each links as link}
       {#if link.href === $page.url.pathname}
@@ -23,5 +23,7 @@
     {/each}
   </nav>
 
-  <slot />
+  <div class="pl-10">
+    <slot />
+  </div>
 </div>
