@@ -11,7 +11,7 @@
 </script>
 
 <div
-  class="flex mr-auto ml-[27vw] mt-[27vh] w-[85vw] sm:w-[75vw] md:w-[65vw] lg:w-[50vw] xl:w-[40vw]"
+  class="flex mr-auto ml-auto mt-[27vh] w-[85vw] sm:w-[75vw] md:w-[65vw] lg:ml-[27vw] lg:w-[50vw] xl:w-[40vw]"
 >
   <nav
     class="flex fixed flex-col space-y-3 text-base font-medium text-right text-gray-500 no-underline"
