@@ -15,7 +15,7 @@
           focusable="false"
           class="block ml-1 w-6 h-6 text-gray-500"
         >
-          <g class="text-gray-500">
+          <g class="text-gray-500" transform="scale(0.8) translate(32 32)">
             <line
               x1="64"
               y1="192"
