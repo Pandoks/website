@@ -16,8 +16,13 @@
   };
 </script>
 
-<slot name="title" {handleClick} />
-
-{#if active}
-  <slot name="content" />
-{/if}
+<div class="flex">
+  <div>
+    <slot name="title" {handleClick} />
+  </div>
+  {#if active}
+    <div class="pl-10">
+      <slot name="content" />
+    </div>
+  {/if}
+</div>

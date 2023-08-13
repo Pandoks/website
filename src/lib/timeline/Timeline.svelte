@@ -7,6 +7,6 @@
   setContext<Writable<string>>("activeId", activeId);
 </script>
 
-<div class="p-4">
+<div class="flex flex-col p-4">
   <slot />
 </div>
