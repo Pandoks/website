@@ -7,7 +7,7 @@
 
   switch (open) {
     case "single": {
-      setContext("activeId", writable("test")); // reactive context
+      setContext("activeId", writable()); // reactive context
       break;
     }
     case "multiple": {
