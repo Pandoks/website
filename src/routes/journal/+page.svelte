@@ -19,3 +19,16 @@
     <div slot="content">Content</div>
   </TimelineItem>
 </Timeline>
+
+<svelte:head>
+  <title>Jason Kwok Journal</title>
+  <meta
+    name="Jason Kwok's Journal"
+    content="A journal for Jason Kwok that talks about his day to day thoughts"
+  />
+  <meta property="og:title" content="Jason Kwok's (Pandoks_) Journal" />
+  <meta
+    property="og:description"
+    content="A journal for Jason Kwok or Pandoks_ that talks about his day to day thoughts"
+  />
+</svelte:head>
