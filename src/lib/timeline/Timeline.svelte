@@ -7,15 +7,12 @@
 
   switch (open) {
     case "single": {
-      // reactive context
-      setContext("activeId", writable("test"));
+      setContext("activeId", writable("test")); // reactive context
       break;
     }
-
     case "multiple": {
       break;
     }
-
     default: {
       throw new Error("Invalid timeline mode");
     }

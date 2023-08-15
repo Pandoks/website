@@ -4,10 +4,8 @@
 
   export let id: string; // date
   let open = getContext("open");
-
   let activeId: Writable<string> = getContext("activeId");
   $: active = $activeId === id;
-
   let handleClick: () => void;
 
   switch (open) {
@@ -22,7 +20,6 @@
       };
       break;
     }
-
     case "multiple": {
       active = false;
       handleClick = () => {
@@ -30,7 +27,6 @@
       };
       break;
     }
-
     default: {
       throw new Error(`Cannot handle open type: {open}`);
     }
