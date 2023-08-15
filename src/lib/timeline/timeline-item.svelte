@@ -3,23 +3,45 @@
   import type { Writable } from "svelte/store";
 
   export let id: string; // date
-  let activeId = getContext<Writable<string>>("activeId");
+  let open = getContext("open");
+
+  let activeId: Writable<string> = getContext("activeId");
   $: active = $activeId === id;
 
-  export let handleClick = () => {
-    if (active) {
-      activeId.set("");
-      return;
+  let handleClick: () => void;
+
+  switch (open) {
+    case "single": {
+      active = false;
+      handleClick = () => {
+        if (active) {
+          activeId.set("");
+          return;
+        }
+        activeId.set(id);
+      };
+      break;
     }
 
-    activeId.set(id);
-  };
+    case "multiple": {
+      active = false;
+      handleClick = () => {
+        active = !active;
+      };
+      break;
+    }
+
+    default: {
+      throw new Error(`Cannot handle open type: {open}`);
+    }
+  }
 </script>
 
 <div class="flex">
-  <div>
-    <slot name="title" {handleClick} />
-  </div>
+  <button on:click={handleClick}>
+    <slot name="title" />
+  </button>
+
   {#if active}
     <div class="pl-10">
       <slot name="content" />

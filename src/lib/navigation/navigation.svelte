@@ -1,11 +1,12 @@
 <script lang="ts">
   import { page } from "$app/stores";
 
-  const links = [
+  export let links = [
     { text: "Jason Kwok", href: "/" },
     { text: "Socials", href: "/socials" },
     { text: "Journal", href: "/journal" },
     { text: "Essays", href: "/essays" },
+    { text: "Notes", href: "/notes" },
   ];
 </script>
 
