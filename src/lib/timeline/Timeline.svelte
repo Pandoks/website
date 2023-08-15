@@ -2,21 +2,23 @@
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
 
-  export let open: string;
-  setContext("open", open);
+  export let mode = "single";
+  export let opened: string[] = [];
 
-  switch (open) {
-    case "single": {
-      setContext("activeId", writable()); // reactive context
-      break;
-    }
-    case "multiple": {
-      break;
-    }
-    default: {
-      throw new Error("Invalid timeline mode");
-    }
-  }
+  // interface to children
+  let timeline = writable();
+  $: timeline.set({
+    isSelected: (id: string) => {
+      return opened.includes(id);
+    },
+    handleClick: (id: string) => {
+      opened = opened.includes(id)
+        ? opened.filter((entry) => entry !== id)
+        : [...opened, id];
+      if (mode == "single" && opened.length) opened = opened.slice(-1);
+    },
+  });
+  setContext("timeline", timeline);
 </script>
 
 <div class="flex overflow-y-auto flex-col p-4">

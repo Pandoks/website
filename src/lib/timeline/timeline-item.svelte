@@ -1,44 +1,18 @@
 <script lang="ts">
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
+  import type Timeline from "./timeline.svelte";
 
-  export let id: string; // date
-  let open = getContext("open");
-  let activeId: Writable<string> = getContext("activeId");
-  $: active = $activeId === id;
-  let handleClick: () => void;
-
-  switch (open) {
-    case "single": {
-      active = false;
-      handleClick = () => {
-        if (active) {
-          activeId.set("");
-          return;
-        }
-        activeId.set(id);
-      };
-      break;
-    }
-    case "multiple": {
-      active = false;
-      handleClick = () => {
-        active = !active;
-      };
-      break;
-    }
-    default: {
-      throw new Error(`Cannot handle open type: {open}`);
-    }
-  }
+  export let id: string;
+  let timeline: Writable<Timeline> = getContext("timeline");
 </script>
 
 <div class="flex">
-  <button on:click={handleClick}>
+  <button on:click={$timeline.handleClick(id)}>
     <slot name="title" />
   </button>
 
-  {#if active}
+  {#if $timeline.isSelected(id)}
     <div class="pl-10">
       <slot name="content" />
     </div>

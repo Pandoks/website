@@ -3,7 +3,7 @@
   import Timeline from "$lib/timeline/timeline.svelte";
 </script>
 
-<Timeline open="single">
+<Timeline mode="single">
   <TimelineItem id="01-20-2006">
     <div slot="title">Title</div>
     <div slot="content">Content</div>
