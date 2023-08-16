@@ -1,6 +1,6 @@
 <script lang="ts">
-  import TimelineItem from "$lib/timeline/timeline-item.svelte";
-  import Timeline from "$lib/timeline/timeline.svelte";
+  import TimelineItem from "$lib/components/timeline/timeline-item.svelte";
+  import Timeline from "$lib/components/timeline/timeline.svelte";
 </script>
 
 <Timeline mode="single">
