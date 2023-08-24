@@ -1,24 +1,30 @@
 <script lang="ts">
   import TimelineItem from "$lib/components/timeline/timeline-item.svelte";
   import Timeline from "$lib/components/timeline/timeline.svelte";
+
+  export let data;
 </script>
 
-<Timeline mode="single">
-  <TimelineItem id="01-20-2006">
-    <div slot="title">Title</div>
-    <div slot="content">Content</div>
-  </TimelineItem>
+<pre>
+  {JSON.stringify(data, null, 2)}
+</pre>
 
-  <TimelineItem id="01-20-2005">
-    <div slot="title">Title</div>
-    <div slot="content">Content</div>
-  </TimelineItem>
-
-  <TimelineItem id="01-20-2004">
-    <div slot="title">Title</div>
-    <div slot="content">Content</div>
-  </TimelineItem>
-</Timeline>
+<!-- <Timeline mode="multiple"> -->
+<!--   <TimelineItem id="01-20-2006"> -->
+<!--     <div slot="title">Title</div> -->
+<!--     <div slot="content">Content</div> -->
+<!--   </TimelineItem> -->
+<!---->
+<!--   <TimelineItem id="01-20-2005"> -->
+<!--     <div slot="title">Title</div> -->
+<!--     <div slot="content">Content</div> -->
+<!--   </TimelineItem> -->
+<!---->
+<!--   <TimelineItem id="01-20-2004"> -->
+<!--     <div slot="title">Title</div> -->
+<!--     <div slot="content">Content</div> -->
+<!--   </TimelineItem> -->
+<!-- </Timeline> -->
 
 <svelte:head>
   <title>Jason Kwok Journal</title>
