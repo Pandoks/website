@@ -5,7 +5,7 @@
 </script>
 
 <a href={link.href} target="_blank" class="flex scale-group">
-  <span>{link.text}</span>
+  <span class="text-black hover:text-gray-500">{link.text}</span>
   <img
     src="/icons/link-icon.svg"
     alt="test"
