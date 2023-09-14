@@ -1,10 +1,14 @@
-export type Categories = "sveltekit" | "svelte";
+import type { SvelteComponent } from "svelte";
+
+export type PostHeader = {
+  title: string;
+  tldr: string;
+  date: string;
+  slug: string;
+  published: boolean;
+};
 
 export type Post = {
-  title: string;
-  slug: string;
-  description: string;
-  date: string;
-  categories: Categories[];
-  published: boolean;
+  header: PostHeader;
+  content: typeof SvelteComponent;
 };

@@ -7,7 +7,7 @@
 >
   <Navigation />
 
-  <div class="ml-[89.88px]">
+  <div class="pl-[89.88px]">
     <slot />
   </div>
 </div>

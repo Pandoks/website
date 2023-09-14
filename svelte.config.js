@@ -15,9 +15,6 @@ const colorScheme = async (code, lang = "text") => {
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexConfig = {
   extensions: [".md"],
-  layout: {
-    _: "./src/lib/mdsvex/layout.svelte", // default
-  },
   highlight: {
     highlighter: colorScheme,
   },

@@ -1,30 +1,20 @@
 <script lang="ts">
   import TimelineItem from "$lib/components/timeline/timeline-item.svelte";
   import Timeline from "$lib/components/timeline/timeline.svelte";
+  import type { Post } from "$lib/types.js";
 
   export let data;
+  let journal: Post[] = data.journal;
 </script>
 
-<pre>
-  {JSON.stringify(data, null, 2)}
-</pre>
-
-<!-- <Timeline mode="multiple"> -->
-<!--   <TimelineItem id="01-20-2006"> -->
-<!--     <div slot="title">Title</div> -->
-<!--     <div slot="content">Content</div> -->
-<!--   </TimelineItem> -->
-<!---->
-<!--   <TimelineItem id="01-20-2005"> -->
-<!--     <div slot="title">Title</div> -->
-<!--     <div slot="content">Content</div> -->
-<!--   </TimelineItem> -->
-<!---->
-<!--   <TimelineItem id="01-20-2004"> -->
-<!--     <div slot="title">Title</div> -->
-<!--     <div slot="content">Content</div> -->
-<!--   </TimelineItem> -->
-<!-- </Timeline> -->
+<Timeline mode="multiple">
+  {#each journal as entry}
+    <TimelineItem id={entry.header.date}>
+      <div slot="title">{entry.header.title}</div>
+      <svelte:component this={entry.content} slot="content" />
+    </TimelineItem>
+  {/each}
+</Timeline>
 
 <svelte:head>
   <title>Jason Kwok Journal</title>

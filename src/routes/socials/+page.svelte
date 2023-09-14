@@ -4,16 +4,16 @@
   ];
 </script>
 
-<div class="text-[#2b2b2b] ml-3 sm:ml-5 md:ml-7 lg:ml-9 xl:ml-10">
+<div class="text-[#2b2b2b] pl-3 sm:pl-5 md:pl-7 lg:pl-9 xl:pl-10">
   {#each socials as social}
-    <a href={social.href} target="_blank">
-      <div class="flex transition hover:scale-110">
-        <span>{social.text}</span>
+    <a href={social.href} target="_blank" class="flex scale-group">
+      <span>{social.text}</span>
+      <div class="transition hover:scale-110">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 256 256"
           focusable="false"
-          class="block ml-1 w-6 h-6 text-gray-500"
+          class="block pl-1 w-6 h-6 text-gray-500 scale-target"
         >
           <g class="text-gray-500" transform="scale(0.8) translate(32 32)">
             <line
@@ -54,3 +54,9 @@
     content="Social media that are related to Jason Kwok or Pandoks_"
   />
 </svelte:head>
+
+<style>
+  .scale-group:hover .scale-target {
+    transform: scale(1.5);
+  }
+</style>
