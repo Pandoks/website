@@ -1,19 +1,21 @@
 <script lang="ts">
+  import Link from "$lib/components/link.svelte";
+
   const socials = [
+    { text: "Instagram", href: "https://www.instagram.com/pandoks_/" },
+    { text: "Instagram", href: "https://www.instagram.com/pandoks_/" },
+    { text: "Instagram", href: "https://www.instagram.com/pandoks_/" },
+    { text: "Instagram", href: "https://www.instagram.com/pandoks_/" },
+    { text: "Instagram", href: "https://www.instagram.com/pandoks_/" },
     { text: "Instagram", href: "https://www.instagram.com/pandoks_/" },
   ];
 </script>
 
-<div class="text-[#2b2b2b]">
+<div
+  class="text-[#2b2b2b] grid grid-cols-1 gap-y-3 xs:grid-cols-2 sm:grid-cols-3 xl:grid-cols-4"
+>
   {#each socials as social}
-    <a href={social.href} target="_blank" class="flex scale-group">
-      <span>{social.text}</span>
-      <img
-        src="/icons/link-icon.svg"
-        alt="test"
-        class="transition block pl-1 w-6 h-6 scale-target scale-90"
-      />
-    </a>
+    <Link link={social} />
   {/each}
 </div>
 
@@ -29,9 +31,3 @@
     content="Social media that are related to Jason Kwok or Pandoks_"
   />
 </svelte:head>
-
-<style>
-  .scale-group:hover .scale-target {
-    transform: scale(1.11);
-  }
-</style>

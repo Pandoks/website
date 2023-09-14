@@ -12,3 +12,8 @@ export type Post = {
   header: PostHeader;
   content: typeof SvelteComponent;
 };
+
+export type Link = {
+  href: string;
+  text: string;
+};

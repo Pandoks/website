@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
       },
+      screens: {
+        xs: "350px",
+      },
     },
   },
   variants: {},
