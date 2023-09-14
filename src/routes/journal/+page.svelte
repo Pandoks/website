@@ -5,9 +5,34 @@
 
   export let data;
   let journal: Post[] = data.journal;
+
+  let opened: string[] = [];
+  // // url change (note: opened is updated by now)
+  // let slug: string = location.pathname.split("/").splice(-1)[0];
+  // let pathName: string = "";
+  // if (opened.includes(id)) {
+  //   // opening
+  //   if (opened.includes(slug)) {
+  //     // url includes slug
+  //     pathName = location.pathname.split("/").splice(0, -1).join("/");
+  //     console.log("splice: " + pathName);
+  //   } else {
+  //     // base slug
+  //     history.pushState(
+  //       { mode: mode, opened: opened },
+  //       "",
+  //       `${location.pathname}/${id}`,
+  //     );
+  //   }
+  // } else {
+  //   // closing
+  //   if (opened.length) {
+  //     // there are still entries opened
+  //   }
+  // }
 </script>
 
-<Timeline mode="multiple">
+<Timeline mode="multiple" bind:opened>
   {#each journal as entry}
     <TimelineItem id={entry.header.date}>
       <div slot="title">{entry.header.title}</div>
