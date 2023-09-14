@@ -4,7 +4,7 @@
   ];
 </script>
 
-<div class="text-[#2b2b2b] pl-3 sm:pl-5 md:pl-7 lg:pl-9 xl:pl-10">
+<div class="text-[#2b2b2b]">
   {#each socials as social}
     <a href={social.href} target="_blank" class="flex scale-group">
       <span>{social.text}</span>

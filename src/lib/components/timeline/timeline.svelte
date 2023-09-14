@@ -21,6 +21,6 @@
   setContext("timeline", timeline);
 </script>
 
-<div class="flex overflow-y-auto flex-col p-4">
+<div class="flex overflow-y-auto flex-col">
   <slot />
 </div>

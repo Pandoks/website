@@ -1,5 +1,6 @@
 <script lang="ts">
-  import Navigation from "$lib/components/navigation/navigation.svelte";
+  import Navigation from "$lib/components/layout/navigation.svelte";
+  import Content from "$lib/components/layout/content.svelte";
 </script>
 
 <div
@@ -8,6 +9,8 @@
   <Navigation />
 
   <div class="pl-[89.88px]">
-    <slot />
+    <Content>
+      <slot />
+    </Content>
   </div>
 </div>
