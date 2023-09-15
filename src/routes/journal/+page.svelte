@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import TimelineItem from "$lib/components/timeline/timeline-item.svelte";
   import Timeline from "$lib/components/timeline/timeline.svelte";
   import type { Post } from "$lib/types.js";
@@ -7,29 +8,31 @@
   let journal: Post[] = data.journal;
 
   let opened: string[] = [];
-  // // url change (note: opened is updated by now)
-  // let slug: string = location.pathname.split("/").splice(-1)[0];
-  // let pathName: string = "";
-  // if (opened.includes(id)) {
-  //   // opening
-  //   if (opened.includes(slug)) {
-  //     // url includes slug
-  //     pathName = location.pathname.split("/").splice(0, -1).join("/");
-  //     console.log("splice: " + pathName);
-  //   } else {
-  //     // base slug
-  //     history.pushState(
-  //       { mode: mode, opened: opened },
-  //       "",
-  //       `${location.pathname}/${id}`,
-  //     );
-  //   }
-  // } else {
-  //   // closing
-  //   if (opened.length) {
-  //     // there are still entries opened
-  //   }
-  // }
+  let openedSize: number = opened.length;
+  console.log("page.url: " + $page.url);
+  console.log("page.route: " + JSON.stringify($page.route));
+  $: {
+    console.log("start: " + typeof opened);
+    if (typeof window !== "undefined") {
+      let basepath: string = window.location.pathname.split("/")[1];
+      let slug: string = window.location.pathname.split("/").slice(-1)[0];
+      console.log(opened);
+      console.log("basepath: ", basepath);
+      console.log("slug: ", slug);
+      if (opened.length && slug === basepath) {
+        console.log("adding");
+        window.history.pushState({}, "", `${basepath}/${opened.slice(-1)[0]}`);
+      } else if (opened.length > openedSize) {
+        console.log("changing");
+        window.history.pushState({}, "", `${basepath}/${opened.slice(-1)[0]}`);
+      } else if (opened.length < openedSize) {
+        console.log("removing");
+        window.history.pushState({}, "", `${basepath}`);
+      }
+      openedSize = opened.length;
+    }
+    console.log("after: " + typeof opened);
+  }
 </script>
 
 <Timeline mode="multiple" bind:opened>
