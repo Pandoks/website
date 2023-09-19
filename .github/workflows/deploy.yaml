@@ -46,7 +46,10 @@ jobs:
 
       - name: Upload .html Without Extension
         run: |
-          find ./build -type f -name "*.html" | xargs -I {} aws s3 cp "{}" "s3://${{ secrets.BUCKET }}/test" --content-type 'text/html'
+          find ./build -type f -name "*.html" | xargs -I {} sh -c '
+          aws s3 cp "{}" \
+          "s3://${{ secrets.BUCKET }}/$(echo "{}" | sed "s|./build/||" | sed "s|.html$||")" \
+          --content-type "text/html"'
 
       - name: Upload Other Files
         run: |
