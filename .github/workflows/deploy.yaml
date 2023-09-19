@@ -44,14 +44,9 @@ jobs:
         run: |
           aws s3 rm s3://${{ secrets.BUCKET }} --recursive
 
-      - name: Show Tree
-        run: tree -a
-
       - name: Upload .html Without Extension
         run: |
-          find ./build -type f -name "*.html" | \
-          xargs -I {} aws s3 cp "{}" "s3://${{ secrets.BUCKET }}/$(basename {} .html)" \
-          --content-type text/html
+          find ./build -type f -name "*.html" | xargs -I {} aws s3 cp "{}" "s3://${{ secrets.BUCKET }}/$(basename {} .html)" --content-type text/html
 
       - name: Upload Other Files
         run: |
