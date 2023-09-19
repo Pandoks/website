@@ -44,6 +44,9 @@ jobs:
         run: |
           aws s3 rm s3://${{ secrets.BUCKET }} --recursive
 
+      - name: Show Tree
+        run: tree -a
+
       - name: Upload .html Without Extension
         run: |
           find ./build -type f -name "*.html" | \
