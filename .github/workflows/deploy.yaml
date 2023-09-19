@@ -49,7 +49,6 @@ jobs:
           find ./build -type f -name "*.html" | \
           xargs -I {} aws s3 cp "{}" "s3://${{ secrets.BUCKET }}/$(basename {} .html)" \
           --content-type text/html
-        shell: bash -eo pipefail
 
       - name: Upload Other Files
         run: |
