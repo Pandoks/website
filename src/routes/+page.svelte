@@ -1,8 +1,8 @@
 <div class="text-xs text-[#2b2b2b]">
   <p>
     In the spirit of shipping fast, I have shipped a mostly broken website.
-    Currently, journal is under construction. Updating URLs for a better user
-    experience is kinda hard ngl.
+    Currently, journal is under construction. Working on updating URLs based on
+    where the user is or what they have previously clicked on.
   </p>
 </div>
 
