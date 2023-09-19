@@ -33,25 +33,30 @@ jobs:
           name: build
           path: ./build/
 
-      - name: Print Build Artifacts
-        run: |
-          ls -a
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Clean
+      - name: Clear AWS S3
         run: |
-          find ./build -type f -name "*.html" | xargs -I {} bash -c 'mv "$0" "${0%.html}"' {}
+          aws s3 rm s3://${{ secrets.BUCKET }} --recursive
 
-      # - name: Configure AWS
-      #   uses: aws-actions/configure-aws-credentials
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: ${{ secrets.AWS_REGION }}
-      #
-      # - name: Upload to AWS
-      #
-      # - name: Clear CDN Cache
-      #   run: |
-      #     aws cloudfront create-invalidation \
-      #       --distribution-id ${{ secrets.DIST_ID }} \
-      #       --paths "/**/*"
+      - name: Upload .html Without Extension
+        run: |
+          find ./build -type f -name "*.html" |
+          xargs -I {} aws s3 cp "{}" "s3://${{ secrets.BUCKET }}/$(basename {} .html)" \
+          --content-type text/html
+        shell: bash -eo pipefail
+
+      - name: Upload Other Files
+        run: |
+          aws s3 sync ./build/ s3://${{ secrets.BUCKET }} --exclude "*.html"
+
+      - name: Clear CDN Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.DIST_ID }} \
+            --paths "/**/*"
