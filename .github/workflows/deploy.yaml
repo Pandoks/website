@@ -34,7 +34,7 @@ jobs:
 
       - name: Print Build Artifacts
         run: |
-          ls -l build-artifacts/
+          ls -a
 
       - name: Clean
         run: |
