@@ -17,14 +17,10 @@ jobs:
           npm install
           npm run build
 
-      - name: Clean
-        run: |
-          find ./build -type f -name "*.html" | xargs -I {} bash -c 'mv "$0" "${0%.html}"' {}
-
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build-artifacts
+          name: build
           path: ./build/
 
   deploy:
@@ -34,11 +30,15 @@ jobs:
       - name: Download Build Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: build-artifacts
+          name: build
 
       - name: Print Build Artifacts
         run: |
           ls -l build-artifacts/
+
+      - name: Clean
+        run: |
+          find ./build -type f -name "*.html" | xargs -I {} bash -c 'mv "$0" "${0%.html}"' {}
 
       # - name: Configure AWS
       #   uses: aws-actions/configure-aws-credentials
