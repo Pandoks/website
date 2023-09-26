@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import TimelineItem from "$lib/components/timeline/timeline-item.svelte";
   import Timeline from "$lib/components/timeline/timeline.svelte";
   import type { Post } from "$lib/types.js";
@@ -9,29 +8,28 @@
 
   let opened: string[] = [];
   let openedSize: number = opened.length;
-  console.log("page.url: " + $page.url);
-  console.log("page.route: " + JSON.stringify($page.route));
   $: {
-    console.log("start: " + typeof opened);
     if (typeof window !== "undefined") {
       let basepath: string = window.location.pathname.split("/")[1];
       let slug: string = window.location.pathname.split("/").slice(-1)[0];
-      console.log(opened);
-      console.log("basepath: ", basepath);
-      console.log("slug: ", slug);
+      console.log(basepath);
       if (opened.length && slug === basepath) {
-        console.log("adding");
-        window.history.pushState({}, "", `${basepath}/${opened.slice(-1)[0]}`);
+        window.history.replaceState(
+          {},
+          "",
+          `${basepath}/${opened.slice(-1)[0]}`,
+        );
       } else if (opened.length > openedSize) {
-        console.log("changing");
-        window.history.pushState({}, "", `${basepath}/${opened.slice(-1)[0]}`);
+        window.history.replaceState(
+          {},
+          "",
+          `${basepath}/${opened.slice(-1)[0]}`,
+        );
       } else if (opened.length < openedSize) {
-        console.log("removing");
-        window.history.pushState({}, "", `${basepath}`);
+        window.history.replaceState({}, "", `${basepath}`);
       }
       openedSize = opened.length;
     }
-    console.log("after: " + typeof opened);
   }
 </script>
 
