@@ -6,7 +6,7 @@
   export let opened: string[] = [];
 
   // interface to children
-  let timeline = writable();
+  let timeline = writable(); // only initializes state once, need $: when opened changes
   $: timeline.set({
     isSelected: (id: string) => {
       return opened.includes(id);
@@ -18,9 +18,9 @@
       if (mode == "single" && opened.length) opened = opened.slice(-1);
     },
   });
+
+  // context for children (data only flows downward)
   setContext("timeline", timeline);
 </script>
 
-<div class="flex overflow-y-auto flex-col">
-  <slot />
-</div>
+<slot />

@@ -8,35 +8,30 @@
 
   let opened: string[] = [];
   let openedSize: number = opened.length;
-  $: {
-    if (typeof window !== "undefined") {
-      let basepath: string = window.location.pathname.split("/")[1];
-      let slug: string = window.location.pathname.split("/").slice(-1)[0];
-      console.log(basepath);
-      if (opened.length && slug === basepath) {
-        window.history.replaceState(
-          {},
-          "",
-          `${basepath}/${opened.slice(-1)[0]}`,
-        );
-      } else if (opened.length > openedSize) {
-        window.history.replaceState(
-          {},
-          "",
-          `${basepath}/${opened.slice(-1)[0]}`,
-        );
-      } else if (opened.length < openedSize) {
-        window.history.replaceState({}, "", `${basepath}`);
-      }
-      openedSize = opened.length;
-    }
-  }
+  // $: {
+  //   if (typeof window !== "undefined") {
+  //     let basepath: string = window.location.pathname.split("/")[1];
+  //     let slug: string = window.location.pathname.split("/").slice(-1)[0];
+  //     if (opened.length && slug === basepath) {
+  //       window.history.replaceState(
+  //         {},
+  //         "",
+  //         `${basepath}/${opened.slice(-1)[0]}`,
+  //       );
+  //       console.log(opened);
+  //     } else if (opened.length < openedSize) {
+  //       window.history.replaceState({}, "", "");
+  //     }
+  //     openedSize = opened.length;
+  //   }
+  // }
 </script>
 
 <Timeline mode="multiple" bind:opened>
   {#each journal as entry}
     <TimelineItem id={entry.header.date}>
-      <div slot="title">{entry.header.title}</div>
+      <p slot="title">{entry.header.title}</p>
+      <p slot="tldr">{entry.header.tldr}</p>
       <svelte:component this={entry.content} slot="content" />
     </TimelineItem>
   {/each}
