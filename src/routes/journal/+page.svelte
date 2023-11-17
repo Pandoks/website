@@ -10,9 +10,7 @@
   let journal: Post[] = data.journal;
   let opened: string[] = [];
 
-  let query = new URLSearchParams($page.url.searchParams.toString());
-
-  const updateMiddleElement = () => {
+  const changeURL = () => {
     const x = window.innerWidth / 2;
     const y = (window.innerHeight * 30) / 100; // Adjust for the margin-top
 
@@ -38,9 +36,9 @@
   };
 
   onMount(() => {
-    window.addEventListener("scroll", updateMiddleElement);
-    window.addEventListener("resize", updateMiddleElement);
-    updateMiddleElement();
+    window.addEventListener("scroll", changeURL);
+    window.addEventListener("resize", changeURL);
+    changeURL();
   });
 </script>
 
