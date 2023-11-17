@@ -27,26 +27,14 @@
     }
     const id = viewing_element?.querySelector(".id")?.textContent;
     if (id && !opened.includes(id)) {
-      setAnchor("");
-      return;
-    }
-    setAnchor(id);
-  };
-
-  const setAnchor = (id: string | null | undefined) => {
-    if (!id) {
       goto("/journal", { replaceState: true, noScroll: true, keepFocus: true });
       return;
     }
-
-    const current_anchor = window.location.hash;
-    if (!current_anchor || current_anchor !== id) {
-      goto("/journal#" + id, {
-        replaceState: true,
-        noScroll: true,
-        keepFocus: true,
-      });
-    }
+    goto("/journal#" + id, {
+      replaceState: true,
+      noScroll: true,
+      keepFocus: true,
+    });
   };
 
   onMount(() => {
