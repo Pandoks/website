@@ -7,7 +7,7 @@
   let timeline: Writable<Timeline> = getContext("timeline");
 </script>
 
-<div class="flex flex-row group">
+<div class="flex flex-row group timeline-item">
   <button
     on:click={$timeline.handleClick(id)}
     class="px-[8px] relative overflow-hidden
@@ -21,7 +21,7 @@
 
   <div>
     <button on:click={$timeline.handleClick(id)}>
-      {id}
+      <p class="id">{id}</p>
       <slot name="title" />
     </button>
 
