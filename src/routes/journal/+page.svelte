@@ -10,28 +10,44 @@
   let journal: Post[] = data.journal;
   let opened: string[] = [];
 
+  let query = new URLSearchParams($page.url.searchParams.toString());
+
   const updateMiddleElement = () => {
     const x = window.innerWidth / 2;
     const y = (window.innerHeight * 30) / 100; // Adjust for the margin-top
 
     const elements = document.elementsFromPoint(x, y);
 
-    let viewing_element: any;
+    let viewing_element: Element | null = null;
     for (const element of elements) {
       if (element.classList.contains("timeline-item")) {
         viewing_element = element;
         break;
       }
     }
-    const id = viewing_element.querySelector(".id").textContent;
-    console.log(opened);
-    console.log(id);
+    const id = viewing_element?.querySelector(".id")?.textContent;
+    if (id && !opened.includes(id)) {
+      setAnchor("");
+      return;
+    }
+    setAnchor(id);
   };
 
-  let query = new URLSearchParams($page.url.searchParams.toString());
-  console.log(query);
-  query.set("word", "test");
-  goto(`?${query.toString()}`);
+  const setAnchor = (id: string | null | undefined) => {
+    if (!id) {
+      goto("/journal", { replaceState: true, noScroll: true, keepFocus: true });
+      return;
+    }
+
+    const current_anchor = window.location.hash;
+    if (!current_anchor || current_anchor !== id) {
+      goto("/journal#" + id, {
+        replaceState: true,
+        noScroll: true,
+        keepFocus: true,
+      });
+    }
+  };
 
   onMount(() => {
     window.addEventListener("scroll", updateMiddleElement);

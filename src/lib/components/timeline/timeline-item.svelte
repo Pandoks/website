@@ -21,7 +21,7 @@
 
   <div>
     <button on:click={$timeline.handleClick(id)}>
-      <p class="id">{id}</p>
+      <p class="id {id}">{id}</p>
       <slot name="title" />
     </button>
 
