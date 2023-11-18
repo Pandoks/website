@@ -8,7 +8,7 @@
   let timeline: Writable<Timeline> = getContext("timeline");
 </script>
 
-<div class="flex flex-row group timeline-item hash {hash}">
+<div class="flex flex-row group timeline-item" id={hash}>
   <button
     on:click={$timeline.handleClick(hash)}
     class="px-[8px] relative overflow-hidden

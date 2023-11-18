@@ -4,10 +4,10 @@
 
   export let mode = "single";
   export let opened: string[] = [];
-  export let handleClick: (id: string) => void = (id: string) => {
-    opened = opened.includes(id)
-      ? opened.filter((entry) => entry !== id)
-      : [...opened, id];
+  export let handleClick: (hash: string) => void = (hash: string) => {
+    opened = opened.includes(hash)
+      ? opened.filter((entry) => entry !== hash)
+      : [...opened, hash];
     if (mode == "single" && opened.length) opened = opened.slice(-1);
   };
 

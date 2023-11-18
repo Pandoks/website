@@ -2,7 +2,7 @@
   import TimelineItem from "$lib/components/timeline/timeline-item.svelte";
   import Timeline from "$lib/components/timeline/timeline.svelte";
   import type { Post } from "$lib/types.js";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import { goto } from "$app/navigation";
 
   let load = false; // partial component flicker replaced with entire component flicker
@@ -12,13 +12,12 @@
   let opened: string[] = [];
   let mode = "multiple";
 
-  const handleClick = (hash: string) => {
+  const handleClick = async (hash: string) => {
     if (opened.includes(hash)) {
       opened = opened.filter((entry) => entry !== hash);
-      setTimeout(() => {
-        // run after DOM changes
-        updateURL();
-      }, 0);
+      await tick();
+      // run after DOM changes
+      updateURL();
     } else {
       opened = [...opened, hash];
       goto("/journal#" + hash, {
@@ -43,9 +42,7 @@
       }
     }
 
-    const hash = viewing_element?.classList.item(
-      viewing_element?.classList.length - 1,
-    );
+    const hash = viewing_element?.getAttribute("id");
     if (hash && !opened.includes(hash)) {
       goto("/journal", { replaceState: true, noScroll: true, keepFocus: true });
       return;
@@ -57,35 +54,42 @@
     });
   };
 
-  onMount(() => {
+  const scrollToView = (element: Element) => {
+    const { top } = element.getBoundingClientRect();
+  };
+
+  onMount(async () => {
     let hash = window.location.hash.slice(1);
     const matching_hash = journal.filter((entry) => entry.header.hash === hash);
     if (matching_hash.length) {
-      opened = [hash];
+      opened = [hash, "muncho"];
     } else if (hash) {
-      goto("/journal", {
-        replaceState: true,
-        noScroll: true,
-        keepFocus: true,
-      });
+      goto("/journal");
     }
     load = true;
+    await tick();
+    let art1 = document.getElementById("art1");
+    if (art1) scrollToView(art1);
 
     window.addEventListener("scroll", updateURL);
     window.addEventListener("resize", updateURL);
   });
 </script>
 
+<a href="#art1">test</a>
+
 {#if load}
-  <Timeline {mode} bind:opened {handleClick}>
-    {#each journal as entry}
-      <TimelineItem date={entry.header.date} hash={entry.header.hash}>
-        <p slot="title">{entry.header.title}</p>
-        <p slot="tldr">{entry.header.tldr}</p>
-        <svelte:component this={entry.content} slot="content" />
-      </TimelineItem>
-    {/each}
-  </Timeline>
+  <div class="pb-60">
+    <Timeline {mode} bind:opened {handleClick}>
+      {#each journal as entry}
+        <TimelineItem date={entry.header.date} hash={entry.header.hash}>
+          <p slot="title">{entry.header.title}</p>
+          <p slot="tldr">{entry.header.tldr}</p>
+          <svelte:component this={entry.content} slot="content" />
+        </TimelineItem>
+      {/each}
+    </Timeline>
+  </div>
 {/if}
 
 <svelte:head>
