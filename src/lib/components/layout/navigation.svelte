@@ -4,8 +4,9 @@
   export let links = [
     { text: "Jason Kwok", href: "/" },
     { text: "Socials", href: "/socials" },
-    { text: "Journal", href: "/journal" },
     { text: "Essays", href: "/essays" },
+    { text: "Journal", href: "/journal" },
+    { text: "Projects", href: "/projects" },
   ];
 </script>
 
@@ -13,7 +14,7 @@
   class="flex fixed flex-col space-y-3 text-base font-medium text-right text-gray-500 no-underline"
 >
   {#each links as link}
-    {#if link.href === $page.url.pathname}
+    {#if link.href.slice(1) === $page.url.pathname.split("/")[1]}
       <span class="text-black">{link.text}</span>
     {:else}
       <a class="hover:text-gray-400" href={link.href}>{link.text}</a>

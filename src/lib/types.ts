@@ -4,7 +4,7 @@ export type PostHeader = {
   title: string;
   tldr: string;
   date: string;
-  slug: string;
+  hash: string;
   published: boolean;
 };
 

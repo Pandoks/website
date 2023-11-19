@@ -2,45 +2,120 @@
   import TimelineItem from "$lib/components/timeline/timeline-item.svelte";
   import Timeline from "$lib/components/timeline/timeline.svelte";
   import type { Post } from "$lib/types.js";
+  import { onMount, tick } from "svelte";
+  import { goto } from "$app/navigation";
+
+  let loaded = false; // partial component flicker replaced with entire component flicker
 
   export let data;
   let journal: Post[] = data.journal;
-
   let opened: string[] = [];
-  let openedSize: number = opened.length;
-  $: {
-    if (typeof window !== "undefined") {
-      let basepath: string = window.location.pathname.split("/")[1];
-      let slug: string = window.location.pathname.split("/").slice(-1)[0];
-      console.log(basepath);
-      if (opened.length && slug === basepath) {
-        window.history.replaceState(
-          {},
-          "",
-          `${basepath}/${opened.slice(-1)[0]}`,
-        );
-      } else if (opened.length > openedSize) {
-        window.history.replaceState(
-          {},
-          "",
-          `${basepath}/${opened.slice(-1)[0]}`,
-        );
-      } else if (opened.length < openedSize) {
-        window.history.replaceState({}, "", `${basepath}`);
-      }
-      openedSize = opened.length;
+  let mode = "multiple";
+
+  const handleClick = async (hash: string) => {
+    if (opened.includes(hash)) {
+      opened = opened.filter((entry) => entry !== hash);
+      setTimeout(() => {
+        updateURL();
+      });
+    } else {
+      opened = [...opened, hash];
+      goto("/journal#" + hash, {
+        replaceState: true,
+        noScroll: true,
+        keepFocus: true,
+      });
+      window.removeEventListener("scroll", updateURL);
+      await scrollToView(document.getElementById(hash)!);
+      window.addEventListener("scroll", updateURL);
     }
-  }
+    if (mode === "single" && opened.length) opened = opened.slice(-1);
+  };
+
+  const updateURL = () => {
+    const x = window.innerWidth / 2;
+    const y = (window.innerHeight * 28) / 100;
+
+    let viewing_element: Element | null = null;
+    const elements = document.elementsFromPoint(x, y);
+    for (const element of elements) {
+      if (element.classList.contains("timeline-item")) {
+        viewing_element = element;
+        break;
+      }
+    }
+
+    const hash = viewing_element?.getAttribute("id");
+    if (hash && !opened.includes(hash)) {
+      goto("/journal", { replaceState: true, noScroll: true, keepFocus: true });
+      return;
+    }
+    goto("/journal#" + hash, {
+      replaceState: true,
+      noScroll: true,
+      keepFocus: true,
+    });
+  };
+
+  const scrollToView = (element: Element): Promise<void> => {
+    return new Promise((resolve) => {
+      const top_gap = (window.innerHeight * 27) / 100;
+      let { left, top } = element.getBoundingClientRect();
+
+      setTimeout(() => {
+        ({ left, top } = element.getBoundingClientRect());
+        window.scrollBy(left, top - top_gap);
+        resolve();
+      });
+    });
+  };
+
+  const updateBottomPadding = () => {
+    const padding_element = document.querySelector(
+      ".bottom-padding",
+    ) as HTMLElement;
+    const padding_size =
+      window.innerHeight -
+      document.getElementsByTagName("nav")[0].getBoundingClientRect().bottom;
+    padding_element!.style.paddingBottom = `${padding_size}px`;
+  };
+
+  onMount(() => {
+    let hash = window.location.hash.slice(1);
+    const matching_hash = journal.filter((entry) => entry.header.hash === hash);
+    if (matching_hash.length) {
+      opened = [hash];
+      tick().then(() => {
+        scrollToView(document.getElementById(hash)!);
+      });
+    } else if (hash) {
+      goto("/journal");
+    }
+    loaded = true;
+
+    tick().then(() => {
+      updateBottomPadding();
+    });
+
+    window.addEventListener("scroll", updateURL);
+    window.addEventListener("resize", updateURL);
+    window.addEventListener("resize", updateBottomPadding);
+  });
 </script>
 
-<Timeline mode="multiple" bind:opened>
-  {#each journal as entry}
-    <TimelineItem id={entry.header.date}>
-      <div slot="title">{entry.header.title}</div>
-      <svelte:component this={entry.content} slot="content" />
-    </TimelineItem>
-  {/each}
-</Timeline>
+{#if loaded}
+  <div class="bottom-padding">
+    <Timeline {mode} bind:opened {handleClick}>
+      {#each journal as entry}
+        <TimelineItem date={entry.header.date} hash={entry.header.hash}>
+          <p slot="title">{entry.header.title}</p>
+          <p slot="tldr">{entry.header.tldr}</p>
+          <svelte:component this={entry.content} slot="content" />
+        </TimelineItem>
+      {/each}
+    </Timeline>
+  </div>
+{/if}
 
 <svelte:head>
   <title>Jason Kwok Journal</title>
