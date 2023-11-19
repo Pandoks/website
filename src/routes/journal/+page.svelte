@@ -70,7 +70,7 @@
     });
   };
 
-  const updatePadding = () => {
+  const updateBottomPadding = () => {
     const padding_element = document.querySelector(
       ".bottom-padding",
     ) as HTMLElement;
@@ -94,12 +94,12 @@
     loaded = true;
 
     tick().then(() => {
-      updatePadding();
+      updateBottomPadding();
     });
 
     window.addEventListener("scroll", updateURL);
     window.addEventListener("resize", updateURL);
-    window.addEventListener("resize", updatePadding);
+    window.addEventListener("resize", updateBottomPadding);
   });
 </script>
 
