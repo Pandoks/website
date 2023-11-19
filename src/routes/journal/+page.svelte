@@ -5,7 +5,7 @@
   import { onMount, tick } from "svelte";
   import { goto } from "$app/navigation";
 
-  let load = false; // partial component flicker replaced with entire component flicker
+  let loaded = false; // partial component flicker replaced with entire component flicker
 
   export let data;
   let journal: Post[] = data.journal;
@@ -15,9 +15,9 @@
   const handleClick = async (hash: string) => {
     if (opened.includes(hash)) {
       opened = opened.filter((entry) => entry !== hash);
-      await tick();
-      // run after DOM changes
-      updateURL();
+      setTimeout(() => {
+        updateURL();
+      });
     } else {
       opened = [...opened, hash];
       goto("/journal#" + hash, {
@@ -31,7 +31,7 @@
 
   const updateURL = () => {
     const x = window.innerWidth / 2;
-    const y = (window.innerHeight * 30) / 100;
+    const y = (window.innerHeight * 27) / 100;
 
     let viewing_element: Element | null = null;
     const elements = document.elementsFromPoint(x, y);
@@ -55,7 +55,12 @@
   };
 
   const scrollToView = (element: Element) => {
-    const { top } = element.getBoundingClientRect();
+    // TODO: Move element align with nav
+    let { left, top } = element.getBoundingClientRect();
+    setTimeout(() => {
+      ({ left, top } = element.getBoundingClientRect());
+      window.scrollTo(left, top);
+    });
   };
 
   onMount(async () => {
@@ -63,23 +68,25 @@
     const matching_hash = journal.filter((entry) => entry.header.hash === hash);
     if (matching_hash.length) {
       opened = [hash, "muncho"];
+      loaded = true;
     } else if (hash) {
       goto("/journal");
     }
-    load = true;
+    loaded = true;
     await tick();
-    let art1 = document.getElementById("art1");
-    if (art1) scrollToView(art1);
+    let element = document.getElementById("art1");
+    scrollToView(element!);
 
     window.addEventListener("scroll", updateURL);
     window.addEventListener("resize", updateURL);
   });
 </script>
 
-<a href="#art1">test</a>
+<!-- <a href="#art1">test</a> -->
 
-{#if load}
+{#if loaded}
   <div class="pb-60">
+    <!-- TODO: Padding so that it scrolls to nav -->
     <Timeline {mode} bind:opened {handleClick}>
       {#each journal as entry}
         <TimelineItem date={entry.header.date} hash={entry.header.hash}>
