@@ -31,7 +31,7 @@
 
   const updateURL = () => {
     const x = window.innerWidth / 2;
-    const y = (window.innerHeight * 27) / 100;
+    const y = (window.innerHeight * 28) / 100;
 
     let viewing_element: Element | null = null;
     const elements = document.elementsFromPoint(x, y);
@@ -55,11 +55,12 @@
   };
 
   const scrollToView = (element: Element) => {
-    // TODO: Move element align with nav
+    const top_gap = (window.innerHeight * 27) / 100;
+
     let { left, top } = element.getBoundingClientRect();
     setTimeout(() => {
       ({ left, top } = element.getBoundingClientRect());
-      window.scrollTo(left, top);
+      window.scrollTo(left, top - top_gap);
     });
   };
 
@@ -67,15 +68,14 @@
     let hash = window.location.hash.slice(1);
     const matching_hash = journal.filter((entry) => entry.header.hash === hash);
     if (matching_hash.length) {
-      opened = [hash, "muncho"];
-      loaded = true;
+      opened = [hash];
+      tick().then(() => {
+        scrollToView(document.getElementById(hash)!);
+      });
     } else if (hash) {
       goto("/journal");
     }
     loaded = true;
-    await tick();
-    let element = document.getElementById("art1");
-    scrollToView(element!);
 
     window.addEventListener("scroll", updateURL);
     window.addEventListener("resize", updateURL);
