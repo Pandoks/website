@@ -33,7 +33,6 @@
   };
 
   const updateURL = () => {
-    console.log("test");
     const x = window.innerWidth / 2;
     const y = (window.innerHeight * 28) / 100;
 
@@ -46,19 +45,17 @@
       }
     }
 
-    const hash = viewing_element?.getAttribute("id");
-    if (!opened.includes(hash!)) {
+    const element_hash = viewing_element?.getAttribute("id");
+    const url_hash = window.location.hash.slice(1);
+
+    if (!opened.includes(element_hash!) && url_hash) {
       goto("/journal", { replaceState: true, noScroll: true, keepFocus: true });
-    } else if (opened.includes(hash!)) {
-      goto("/journal#" + hash, {
+    } else if (opened.includes(element_hash!) && url_hash !== element_hash) {
+      goto("/journal#" + element_hash, {
         replaceState: true,
         noScroll: true,
         keepFocus: true,
       });
-    } else {
-      window.removeEventListener("scroll", updateURL);
-      window.removeEventListener("resize", updateURL);
-      window.removeEventListener("resize", updateBottomPadding);
     }
   };
 
@@ -94,13 +91,21 @@
         scrollToView(document.getElementById(hash)!);
       });
     } else if (hash) {
-      console.log("has hash");
       goto("/journal");
     }
     loaded = true;
 
     tick().then(() => {
       updateBottomPadding();
+    });
+
+    const nav_elements = document.querySelectorAll("a");
+    nav_elements.forEach((element) => {
+      element.addEventListener("click", () => {
+        window.removeEventListener("scroll", updateURL);
+        window.removeEventListener("resize", updateURL);
+        window.removeEventListener("resize", updateBottomPadding);
+      });
     });
 
     window.addEventListener("scroll", updateURL);
