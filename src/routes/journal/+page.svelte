@@ -64,14 +64,23 @@
 
       setTimeout(() => {
         ({ left, top } = element.getBoundingClientRect());
-        console.log(top);
         window.scrollBy(left, top - top_gap);
         resolve();
       });
     });
   };
 
-  onMount(async () => {
+  const updatePadding = () => {
+    const padding_element = document.querySelector(
+      ".bottom-padding",
+    ) as HTMLElement;
+    const padding_size =
+      window.innerHeight -
+      document.getElementsByTagName("nav")[0].getBoundingClientRect().bottom;
+    padding_element!.style.paddingBottom = `${padding_size}px`;
+  };
+
+  onMount(() => {
     let hash = window.location.hash.slice(1);
     const matching_hash = journal.filter((entry) => entry.header.hash === hash);
     if (matching_hash.length) {
@@ -84,14 +93,18 @@
     }
     loaded = true;
 
+    tick().then(() => {
+      updatePadding();
+    });
+
     window.addEventListener("scroll", updateURL);
     window.addEventListener("resize", updateURL);
+    window.addEventListener("resize", updatePadding);
   });
 </script>
 
 {#if loaded}
-  <div class="pb-96">
-    <!-- TODO: Padding so that it scrolls to nav -->
+  <div class="bottom-padding">
     <Timeline {mode} bind:opened {handleClick}>
       {#each journal as entry}
         <TimelineItem date={entry.header.date} hash={entry.header.hash}>
