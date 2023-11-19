@@ -25,6 +25,9 @@
         noScroll: true,
         keepFocus: true,
       });
+      window.removeEventListener("scroll", updateURL);
+      await scrollToView(document.getElementById(hash)!);
+      window.addEventListener("scroll", updateURL);
     }
     if (mode === "single" && opened.length) opened = opened.slice(-1);
   };
@@ -54,13 +57,17 @@
     });
   };
 
-  const scrollToView = (element: Element) => {
-    const top_gap = (window.innerHeight * 27) / 100;
+  const scrollToView = (element: Element): Promise<void> => {
+    return new Promise((resolve) => {
+      const top_gap = (window.innerHeight * 27) / 100;
+      let { left, top } = element.getBoundingClientRect();
 
-    let { left, top } = element.getBoundingClientRect();
-    setTimeout(() => {
-      ({ left, top } = element.getBoundingClientRect());
-      window.scrollTo(left, top - top_gap);
+      setTimeout(() => {
+        ({ left, top } = element.getBoundingClientRect());
+        console.log(top);
+        window.scrollBy(left, top - top_gap);
+        resolve();
+      });
     });
   };
 
@@ -82,10 +89,8 @@
   });
 </script>
 
-<!-- <a href="#art1">test</a> -->
-
 {#if loaded}
-  <div class="pb-60">
+  <div class="pb-96">
     <!-- TODO: Padding so that it scrolls to nav -->
     <Timeline {mode} bind:opened {handleClick}>
       {#each journal as entry}
