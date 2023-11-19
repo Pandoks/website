@@ -33,6 +33,7 @@
   };
 
   const updateURL = () => {
+    console.log("test");
     const x = window.innerWidth / 2;
     const y = (window.innerHeight * 28) / 100;
 
@@ -46,15 +47,19 @@
     }
 
     const hash = viewing_element?.getAttribute("id");
-    if (hash && !opened.includes(hash)) {
+    if (!opened.includes(hash!)) {
       goto("/journal", { replaceState: true, noScroll: true, keepFocus: true });
-      return;
+    } else if (opened.includes(hash!)) {
+      goto("/journal#" + hash, {
+        replaceState: true,
+        noScroll: true,
+        keepFocus: true,
+      });
+    } else {
+      window.removeEventListener("scroll", updateURL);
+      window.removeEventListener("resize", updateURL);
+      window.removeEventListener("resize", updateBottomPadding);
     }
-    goto("/journal#" + hash, {
-      replaceState: true,
-      noScroll: true,
-      keepFocus: true,
-    });
   };
 
   const scrollToView = (element: Element): Promise<void> => {
@@ -89,6 +94,7 @@
         scrollToView(document.getElementById(hash)!);
       });
     } else if (hash) {
+      console.log("has hash");
       goto("/journal");
     }
     loaded = true;
