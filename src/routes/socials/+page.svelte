@@ -4,7 +4,7 @@
   const socials = [
     { text: "Instagram", href: "https://www.instagram.com/pandoks_/" },
     { text: "GitHub", href: "https://www.github.com/pandoks/" },
-    { text: "X", href: "https://www.x.com/pandoks_/" },
+    // { text: "X", href: "https://www.x.com/pandoks_/" },
   ];
 </script>
 
