@@ -5,8 +5,13 @@
   let essays: Essay[] = data.essays;
 </script>
 
-<div class="flex flex-col">
+<div class="flex flex-col space-y-3">
   {#each essays as essay}
-    <a href="/essays/{essay.header.slug}">{essay.header.slug}</a>
+    <a
+      href="/essays/{essay.header.slug}"
+      class="transition block pr-1 w-6 h-6 hover:scale-[1.11] hover:text-gray-500"
+    >
+      {essay.header.slug}
+    </a>
   {/each}
 </div>

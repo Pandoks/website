@@ -27,7 +27,7 @@
     </button>
 
     {#if $timeline.isSelected(hash)}
-      <div class="pl-10">
+      <div class="pl-10 text-xs">
         <slot name="content" />
       </div>
     {:else}

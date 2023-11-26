@@ -14,7 +14,7 @@
 >
   {#each links as link}
     {#if link.href.slice(1) === $page.url.pathname.split("/")[1]}
-      <span class="text-black">{link.text}</span>
+      <a class="text-black hover:text-gray-600" href={link.href}>{link.text}</a>
     {:else}
       <a class="hover:text-gray-400" href={link.href}>{link.text}</a>
     {/if}
