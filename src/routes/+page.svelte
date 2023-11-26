@@ -1,8 +1,5 @@
 <div class="text-xs text-[#2b2b2b]">
-  <p>
-    In the spirit of shipping fast, I have shipped a mostly broken website.
-    Currently, essays is under construction.
-  </p>
+  <p>Hi. I'm me and this is my journey.</p>
 </div>
 
 <svelte:head>
