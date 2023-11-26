@@ -3,7 +3,6 @@
 
   export let data;
   let essays: Essay[] = data.essays;
-  console.log(essays);
 </script>
 
 <div class="flex flex-col">
