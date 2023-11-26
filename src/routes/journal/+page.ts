@@ -7,7 +7,7 @@ const loadJournal = async () => {
   const paths = import.meta.glob("$lib/journal/**/*.md", { eager: true });
 
   for (const path in paths) {
-    const file = await paths[path];
+    const file = await paths[path]; // TODO: do asyncly
     const hash = path.split("/").at(-1)?.replace(".md", "");
     if (
       file &&
