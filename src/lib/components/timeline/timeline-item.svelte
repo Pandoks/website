@@ -20,7 +20,7 @@
     after:-translate-x-[4px] after:top-0 after:translate-y-[8px]"
   />
 
-  <div class="pl-[10px]">
+  <div class="pl-[10px] pb-2">
     <button on:click={$timeline.handleClick(hash)}>
       <p class="text-sm">{date}</p>
       <span class="text-lg text-left">
@@ -33,7 +33,7 @@
         <slot name="content" />
       </div>
     {:else}
-      <p class="text-xs">
+      <p class="text-xs pt-1 leading-3">
         <slot name="tldr" />
       </p>
     {/if}
