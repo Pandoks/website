@@ -17,11 +17,16 @@
     before:top-0 group-first:before:translate-y-[10px]
 
     after:absolute after:w-[8px] after:h-[8px] after:bg-slate-500 after:rounded-full
-    after:-translate-x-[4px] after:top-0 after:translate-y-[8px]"
+    after:-translate-x-[4px] after:top-0 after:translate-y-[8px]
+
+    after:transition hover:after:scale-[1.11]"
   />
 
   <div class="pl-[10px] pb-2">
-    <button on:click={$timeline.handleClick(hash)}>
+    <button
+      on:click={$timeline.handleClick(hash)}
+      class="transition hover:scale-[1.11]"
+    >
       <p class="text-sm">{date}</p>
       <span class="text-lg text-left">
         <slot name="title" />
