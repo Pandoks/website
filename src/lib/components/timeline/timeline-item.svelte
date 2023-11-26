@@ -20,18 +20,22 @@
     after:-translate-x-[4px] after:top-0 after:translate-y-[8px]"
   />
 
-  <div>
+  <div class="pl-[10px]">
     <button on:click={$timeline.handleClick(hash)}>
-      {date}
-      <slot name="title" />
+      <p class="text-sm">{date}</p>
+      <span class="text-lg text-left">
+        <slot name="title" />
+      </span>
     </button>
 
     {#if $timeline.isSelected(hash)}
-      <div class="pl-10 text-xs">
+      <div class="text-xs leading-8">
         <slot name="content" />
       </div>
     {:else}
-      <slot name="tldr" />
+      <p class="text-xs">
+        <slot name="tldr" />
+      </p>
     {/if}
   </div>
 </div>

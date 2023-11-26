@@ -2,9 +2,9 @@
   export let data;
 </script>
 
-<p>{data.header.date}</p>
-<p>{data.header.title}</p>
+<p class="text-sm">{data.header.date}</p>
+<p class="text-lg">{data.header.title}</p>
 
-<div class="text-xs">
+<div class="text-xs leading-8">
   <svelte:component this={data.content} />
 </div>
