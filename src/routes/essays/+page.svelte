@@ -9,9 +9,9 @@
   {#each essays as essay}
     <a
       href="/essays/{essay.header.slug}"
-      class="transition block pr-1 w-6 h-6 hover:scale-[1.11] hover:text-gray-500"
+      class="transition w-fit hover:scale-[1.11] hover:text-gray-500"
     >
-      {essay.header.slug}
+      {essay.header.title}
     </a>
   {/each}
 </div>

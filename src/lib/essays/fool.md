@@ -1,5 +1,5 @@
 ---
-title: asdfasdf
+title: Be a Fool
 tldr: asdfasdfa
 date: "01-02-2003"
 published: true
