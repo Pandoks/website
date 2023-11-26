@@ -6,6 +6,8 @@
   console.log(essays);
 </script>
 
-{#each essays as essay}
-  <a href="/essays/{essay.header.slug}">{essay.header.title}</a>
-{/each}
+<div class="flex flex-col">
+  {#each essays as essay}
+    <a href="/essays/{essay.header.slug}">{essay.header.slug}</a>
+  {/each}
+</div>

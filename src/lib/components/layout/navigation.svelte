@@ -6,7 +6,6 @@
     { text: "Socials", href: "/socials" },
     { text: "Essays", href: "/essays" },
     { text: "Journal", href: "/journal" },
-    { text: "Projects", href: "/projects" },
   ];
 </script>
 
