@@ -7,5 +7,5 @@
 </script>
 
 {#each essays as essay}
-  {essay.header.title}
+  <a href="/essays/{essay.header.slug}">{essay.header.title}</a>
 {/each}

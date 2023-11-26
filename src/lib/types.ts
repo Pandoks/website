@@ -17,12 +17,12 @@ export type EssayHeader = {
   title: string;
   tldr: string;
   date: string;
-  hash: string;
+  slug: string;
   published: boolean;
 };
 
 export type Essay = {
-  header: PostHeader;
+  header: EssayHeader;
   content: typeof SvelteComponent;
 };
 
