@@ -2,9 +2,11 @@
   import Link from "$lib/components/link.svelte";
 
   const socials = [
+    { text: "YouTube", href: "https://www.youtube.com/@pandoks_online/" },
+    { text: "TikTok", href: "https://www.tiktok.com/@pandoks_/" },
+    { text: "Twitter", href: "https://www.twitter.com/pandoks_/" },
     { text: "Instagram", href: "https://www.instagram.com/pandoks_/" },
     { text: "GitHub", href: "https://www.github.com/pandoks/" },
-    // { text: "X", href: "https://www.x.com/pandoks_/" },
   ];
 </script>
 
