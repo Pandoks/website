@@ -30,3 +30,11 @@ export type Link = {
   href: string;
   text: string;
 };
+
+export type Vim = {
+  active: boolean;
+  left: Element;
+  down: Element;
+  up: Element;
+  right: Element;
+};
