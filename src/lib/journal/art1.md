@@ -1,6 +1,6 @@
 ---
 title: panem et circenses
-tldr: 1st entry
+tldr: you're too comfortable
 date: "04-20-2024"
 published: true
 ---
