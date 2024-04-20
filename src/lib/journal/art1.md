@@ -1,8 +1,8 @@
 ---
-title: Inital Journal
+title: panem et circenses
 tldr: 1st entry
-date: "01-02-2003"
+date: "04-20-2024"
 published: true
 ---
 
-First journal entry
+Leisure is great, but just like anything in too much excess, it is a distraction from your goals.
