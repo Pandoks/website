@@ -27,7 +27,7 @@
       on:click={$timeline.handleClick(hash)}
       class="transition hover:scale-[1.11]"
     >
-      <p class="text-sm">{date}</p>
+      <p class="text-sm text-left">{date}</p>
       <span class="text-lg text-left">
         <slot name="title" />
       </span>
