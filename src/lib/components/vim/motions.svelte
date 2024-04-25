@@ -4,6 +4,13 @@
 
   export let element: string;
 
+  const findClosestRight = (element: HTMLElement) => {
+    const { top, left, right, bottom } = element.getBoundingClientRect();
+    const horizontalDetectionLine = (top + bottom) / 2;
+    let closestElement = null;
+    const elements = document.;
+  };
+
   const handleKey = (event: KeyboardEvent) => {
     const key = event.key;
     if (
