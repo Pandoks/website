@@ -77,6 +77,14 @@
         up: null,
         right: right as HTMLElement | null,
       });
+    } else if (key === "Escape") {
+      activeVimElement.set({
+        selected: null,
+        left: null,
+        down: null,
+        up: null,
+        right: null,
+      });
     }
   };
 
