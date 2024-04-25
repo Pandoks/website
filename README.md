@@ -19,3 +19,5 @@ the entry.
 #### Motions
 
 Navigate throughout the entire website using `hjkl` and common motions.
+
+### Dark Mode
