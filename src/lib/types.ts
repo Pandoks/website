@@ -32,7 +32,7 @@ export type Link = {
 };
 
 export type VimNavigationElement = {
-  active: HTMLElement;
+  selected: HTMLElement | null;
   left: HTMLElement | null;
   down: HTMLElement | null;
   up: HTMLElement | null;

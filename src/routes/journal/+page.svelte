@@ -33,6 +33,7 @@
   };
 
   const updateURL = () => {
+    // TODO: Make this directly to the right of "Jason Kwok"
     const x = window.innerWidth / 2;
     const y = (window.innerHeight * 28) / 100;
 

@@ -1,38 +1,62 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { activeVimElement } from "$lib/stores";
+  import { onMount } from "svelte";
 
-  export let left = null;
-  export let down = null;
-  export let up = null;
-  export let right = null;
+  export let element: string;
 
   const handleKey = (event: KeyboardEvent) => {
     const key = event.key;
-
     if (
-      !activeVimElement &&
+      !$activeVimElement.selected &&
       (key === "h" || key === "j" || key === "k" || key === "l")
     ) {
-      // write to active_vim
-    }
+      switch (window.location.pathname) {
+        case "socials":
+          activeVimElement.set({
+            selected: document.getElementById("nav-jason-kwok"),
+            left: null,
+            down: document.getElementById("nav-socials"),
+            up: null,
+            right: document.getElementById("youtube"),
+          });
+          break;
 
-    switch (key) {
-      case "h":
-        break;
-      case "j":
-        break;
-      case "k":
-        break;
-      case "l":
-        break;
-      default:
-        break;
+        case "essays":
+          activeVimElement.set({
+            selected: document.getElementById("nav-jason-kwok"),
+            left: null,
+            down: document.getElementById("nav-socials"),
+            up: null,
+            right: null,
+          });
+          break;
+
+        case "journal":
+          activeVimElement.set({
+            selected: document.getElementById("nav-jason-kwok"),
+            left: null,
+            down: document.getElementById("nav-socials"),
+            up: null,
+            right: null,
+          });
+          break;
+
+        default:
+          activeVimElement.set({
+            selected: document.getElementById("nav-jason-kwok"),
+            left: null,
+            down: document.getElementById("nav-socials"),
+            up: null,
+            right: null,
+          });
+      }
+      if (window.location.pathname === "essays") {
+      }
     }
   };
 
   onMount(() => {
-    window.addEventListener("keydown", handleKey);
+    document.addEventListener("keydown", handleKey);
   });
 </script>
 
