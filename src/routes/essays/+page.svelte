@@ -9,7 +9,7 @@
   {#each essays as essay}
     <a
       href="/essays/{essay.header.slug}"
-      class="transition w-fit hover:scale-[1.11] hover:text-gray-500"
+      class="essay-link transition w-fit hover:scale-[1.11] hover:text-gray-500"
     >
       {essay.header.title}
     </a>

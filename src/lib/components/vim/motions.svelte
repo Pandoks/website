@@ -1,14 +1,41 @@
 <script lang="ts">
   import { activeVimElement } from "$lib/stores";
+  import { getElementsFromHorizontalLine } from "$lib/utils";
   import { onMount } from "svelte";
 
   export let element: string;
 
-  const findClosestRight = (element: HTMLElement) => {
+  const findClosestRightElement = ({
+    element,
+    lookup,
+  }: {
+    element: HTMLElement;
+    lookup?: {
+      ids?: Set<string>;
+      classes?: Set<string>;
+    };
+  }) => {
     const { top, left, right, bottom } = element.getBoundingClientRect();
-    const horizontalDetectionLine = (top + bottom) / 2;
-    let closestElement = null;
-    const elements = document.;
+    const horizontalDetectionLineYCoordinate = (top + bottom) / 2;
+
+    if (!lookup) {
+      const detectedLines = getElementsFromHorizontalLine({
+        startx: right,
+        endx: window.innerWidth,
+        y: horizontalDetectionLineYCoordinate,
+      });
+
+      return detectedLines[0];
+    }
+
+    const detectedLines = getElementsFromHorizontalLine({
+      startx: right,
+      endx: window.innerWidth,
+      y: horizontalDetectionLineYCoordinate,
+      lookup: lookup,
+    });
+
+    return detectedLines[0];
   };
 
   const handleKey = (event: KeyboardEvent) => {
@@ -17,48 +44,39 @@
       !$activeVimElement.selected &&
       (key === "h" || key === "j" || key === "k" || key === "l")
     ) {
+      const selected = document.getElementById("nav-jason-kwok")!;
+      const down = document.getElementById("nav-socials")!;
+      let right = null;
       switch (window.location.pathname) {
         case "socials":
-          activeVimElement.set({
-            selected: document.getElementById("nav-jason-kwok"),
-            left: null,
-            down: document.getElementById("nav-socials"),
-            up: null,
-            right: document.getElementById("youtube"),
+          right = findClosestRightElement({
+            element: selected,
+            lookup: { classes: new Set(["social-link"]) },
           });
           break;
 
         case "essays":
-          activeVimElement.set({
-            selected: document.getElementById("nav-jason-kwok"),
-            left: null,
-            down: document.getElementById("nav-socials"),
-            up: null,
-            right: null,
+          right = findClosestRightElement({
+            element: selected,
+            lookup: { classes: new Set(["essay-link"]) },
           });
           break;
 
         case "journal":
-          activeVimElement.set({
-            selected: document.getElementById("nav-jason-kwok"),
-            left: null,
-            down: document.getElementById("nav-socials"),
-            up: null,
-            right: null,
+          right = findClosestRightElement({
+            element: selected,
+            lookup: { classes: new Set(["essay-link"]) },
           });
           break;
+      }
 
-        default:
-          activeVimElement.set({
-            selected: document.getElementById("nav-jason-kwok"),
-            left: null,
-            down: document.getElementById("nav-socials"),
-            up: null,
-            right: null,
-          });
-      }
-      if (window.location.pathname === "essays") {
-      }
+      activeVimElement.set({
+        selected: selected,
+        left: null,
+        down: down,
+        up: null,
+        right: right as HTMLElement | null,
+      });
     }
   };
 

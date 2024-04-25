@@ -8,7 +8,7 @@
   id={link.text.toLowerCase()}
   href={link.href}
   target="_blank"
-  class="transition flex hover:scale-[1.11] text-black hover:text-gray-500"
+  class="social-link transition flex hover:scale-[1.11] text-black hover:text-gray-500"
 >
   <img
     src="/icons/socials/{link.text.toLowerCase()}.svg"
