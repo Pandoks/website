@@ -2,10 +2,10 @@
   import { page } from "$app/stores";
 
   export let links = [
-    { text: "Jason Kwok", href: "/" },
-    { text: "Socials", href: "/socials" },
-    { text: "Essays", href: "/essays" },
-    { text: "Journal", href: "/journal" },
+    { text: "Jason Kwok", href: "/", id: "nav-jason-kwok" },
+    { text: "Socials", href: "/socials", id: "nav-socials" },
+    { text: "Essays", href: "/essays", id: "nav-essays" },
+    { text: "Journal", href: "/journal", id: "nav-journal" },
   ];
 </script>
 
@@ -14,9 +14,13 @@
 >
   {#each links as link}
     {#if link.href.slice(1) === $page.url.pathname.split("/")[1]}
-      <a class="text-black hover:text-gray-600" href={link.href}>{link.text}</a>
+      <a id={link.id} class="text-black hover:text-gray-600" href={link.href}
+        >{link.text}</a
+      >
     {:else}
-      <a class="hover:text-gray-400" href={link.href}>{link.text}</a>
+      <a id={link.id} class="hover:text-gray-400" href={link.href}
+        >{link.text}</a
+      >
     {/if}
   {/each}
 </nav>

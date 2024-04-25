@@ -31,10 +31,10 @@ export type Link = {
   text: string;
 };
 
-export type Vim = {
-  active: boolean;
-  left: Element;
-  down: Element;
-  up: Element;
-  right: Element;
+export type VimNavigationElement = {
+  active: HTMLElement;
+  left: HTMLElement | null;
+  down: HTMLElement | null;
+  up: HTMLElement | null;
+  right: HTMLElement | null;
 };
