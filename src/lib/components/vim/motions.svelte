@@ -166,6 +166,7 @@
     }
     const { leftElement, downElement, upElement, rightElement } =
       getElementSurroundings($activeVimElement.selected!);
+    console.log({ leftElement, downElement, upElement, rightElement });
     $activeVimElement.left = leftElement;
     $activeVimElement.down = downElement;
     $activeVimElement.up = upElement;

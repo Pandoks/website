@@ -8,6 +8,7 @@
 <div class="flex flex-col space-y-3">
   {#each essays as essay}
     <a
+      id={essay.header.slug}
       href="/essays/{essay.header.slug}"
       class="essay-link transition w-fit hover:scale-[1.11] hover:text-gray-500"
     >
