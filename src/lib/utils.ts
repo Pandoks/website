@@ -8,7 +8,8 @@ export const getElementsFromLine = ({
 }: {
   startx: number;
   endx: number;
-  y: number;
+  starty: number;
+  endy: number;
   lookup?: {
     ids?: Set<string>;
     classes?: Set<string>;
@@ -18,20 +19,22 @@ export const getElementsFromLine = ({
     startx < 0 ||
     startx > endx ||
     endx > window.innerWidth ||
-    startx > window.innerWidth
+    startx > window.innerWidth ||
+    starty < 0 ||
+    starty > endy ||
+    endy > window.innerHeight ||
+    starty > window.innerHeight
   ) {
-    throw new Error(
-      "Starting X and Ending X coordinates need to be within the window size",
-    );
-  }
-  if (y < 0 || y > window.innerHeight) {
-    throw new Error("Y coordinate needs to be within the window size");
+    throw new Error("Coordinates need to be within the window size");
   }
 
   const lookupElements = new Set();
   const cacheElementList = new Set();
   const elementList = [];
-  for (let x = startx; x <= endx; x++) {
+
+  const linePoints = getPointsAlongLine({ startx, endx, starty, endy });
+  for (let i = 0; i < linePoints.length; i++) {
+    const { x, y } = linePoints[i];
     const elements = document.elementsFromPoint(x, y);
     if (cacheElementList.has(elements)) {
       continue;
