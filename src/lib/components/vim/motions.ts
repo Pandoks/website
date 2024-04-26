@@ -116,16 +116,9 @@ export const getClosestElementForElement = ({
   direction: "left" | "down" | "up" | "right";
 }) => {
   const { top, bottom, left, right } = element.getBoundingClientRect();
-  const width = right - left;
-  const height = bottom - top;
 
   const horizontal = direction === "left" || direction === "right";
   const vertical = direction === "down" || direction === "up";
-  if (horizontal && interval > width / 2) {
-    return null;
-  } else if (vertical && interval > height / 2) {
-    return null;
-  }
 
   const middlex = (left + right) / 2;
   const middley = (top + bottom) / 2;
@@ -162,95 +155,101 @@ export const getClosestElementForElement = ({
     return closestElement;
   }
 
-  let positiveDeltaStartingPoint = { ...startingPoint };
-  let positiveDeltaEndingPoint = { ...endingPoint };
-  let negativeDeltaStartingPoint = { ...startingPoint };
-  let negativeDeltaEndingPoint = { ...endingPoint };
   if (horizontal) {
     let positiveDeltaPointY = startingPoint.y + interval;
     let negativeDeltaPointY = startingPoint.y - interval;
 
     while (positiveDeltaPointY <= bottom || negativeDeltaPointY >= top) {
-      positiveDeltaStartingPoint = {
-        x: startingPoint.x,
-        y: positiveDeltaPointY,
-      };
-      positiveDeltaEndingPoint = {
-        x: endingPoint.x,
-        y: positiveDeltaPointY,
-      };
-      const closestPositiveDeltaElement = getClosestElementFromLine({
-        startingPoint: positiveDeltaStartingPoint,
-        endingPoint: positiveDeltaEndingPoint,
-        excludedIds: new Set([element.id]),
-      }) as HTMLElement;
-      if (closestPositiveDeltaElement) {
-        return closestPositiveDeltaElement;
+      if (positiveDeltaPointY <= bottom) {
+        const positiveDeltaStartingPoint = {
+          x: startingPoint.x,
+          y: positiveDeltaPointY,
+        };
+        const positiveDeltaEndingPoint = {
+          x: endingPoint.x,
+          y: positiveDeltaPointY,
+        };
+        const closestPositiveDeltaElement = getClosestElementFromLine({
+          startingPoint: positiveDeltaStartingPoint,
+          endingPoint: positiveDeltaEndingPoint,
+          excludedIds: new Set([element.id]),
+        }) as HTMLElement;
+        if (closestPositiveDeltaElement) {
+          return closestPositiveDeltaElement;
+        }
       }
 
-      negativeDeltaStartingPoint = {
-        x: startingPoint.x,
-        y: negativeDeltaPointY,
-      };
-      negativeDeltaEndingPoint = {
-        x: endingPoint.x,
-        y: negativeDeltaPointY,
-      };
-      const closestNegativeDeltaElement = getClosestElementFromLine({
-        startingPoint: negativeDeltaStartingPoint,
-        endingPoint: negativeDeltaEndingPoint,
-        excludedIds: new Set([element.id]),
-      });
-      if (closestNegativeDeltaElement) {
-        return closestNegativeDeltaElement;
+      if (negativeDeltaPointY >= top) {
+        const negativeDeltaStartingPoint = {
+          x: startingPoint.x,
+          y: negativeDeltaPointY,
+        };
+        const negativeDeltaEndingPoint = {
+          x: endingPoint.x,
+          y: negativeDeltaPointY,
+        };
+        const closestNegativeDeltaElement = getClosestElementFromLine({
+          startingPoint: negativeDeltaStartingPoint,
+          endingPoint: negativeDeltaEndingPoint,
+          excludedIds: new Set([element.id]),
+        });
+        if (closestNegativeDeltaElement) {
+          return closestNegativeDeltaElement;
+        }
       }
 
-      positiveDeltaPointY = positiveDeltaStartingPoint.y + interval;
-      negativeDeltaPointY = positiveDeltaStartingPoint.y - interval;
+      positiveDeltaPointY += interval;
+      negativeDeltaPointY -= interval;
     }
   } else if (vertical) {
     let positiveDeltaPointX = startingPoint.x + interval;
     let negativeDeltaPointX = startingPoint.x - interval;
 
     while (positiveDeltaPointX <= right || negativeDeltaPointX >= left) {
-      positiveDeltaStartingPoint = {
-        x: positiveDeltaPointX,
-        y: startingPoint.y,
-      };
-      positiveDeltaEndingPoint = {
-        x: positiveDeltaPointX,
-        y: endingPoint.y,
-      };
-      const closestPositiveDeltaElement = getClosestElementFromLine({
-        startingPoint: positiveDeltaStartingPoint,
-        endingPoint: positiveDeltaEndingPoint,
-        excludedIds: new Set([element.id]),
-      });
-      if (closestPositiveDeltaElement) {
-        return closestPositiveDeltaElement;
+      if (positiveDeltaPointX <= right) {
+        const positiveDeltaStartingPoint = {
+          x: positiveDeltaPointX,
+          y: startingPoint.y,
+        };
+        const positiveDeltaEndingPoint = {
+          x: positiveDeltaPointX,
+          y: endingPoint.y,
+        };
+        const closestPositiveDeltaElement = getClosestElementFromLine({
+          startingPoint: positiveDeltaStartingPoint,
+          endingPoint: positiveDeltaEndingPoint,
+          excludedIds: new Set([element.id]),
+        });
+        if (closestPositiveDeltaElement) {
+          return closestPositiveDeltaElement;
+        }
       }
 
-      negativeDeltaStartingPoint = {
-        x: negativeDeltaPointX,
-        y: startingPoint.y,
-      };
-      negativeDeltaEndingPoint = {
-        x: negativeDeltaPointX,
-        y: endingPoint.y,
-      };
-      const closestNegativeDeltaElement = getClosestElementFromLine({
-        startingPoint: negativeDeltaStartingPoint,
-        endingPoint: negativeDeltaEndingPoint,
-        excludedIds: new Set([element.id]),
-      });
-      if (closestNegativeDeltaElement) {
-        return closestNegativeDeltaElement;
+      if (negativeDeltaPointX >= left) {
+        const negativeDeltaStartingPoint = {
+          x: negativeDeltaPointX,
+          y: startingPoint.y,
+        };
+        const negativeDeltaEndingPoint = {
+          x: negativeDeltaPointX,
+          y: endingPoint.y,
+        };
+        const closestNegativeDeltaElement = getClosestElementFromLine({
+          startingPoint: negativeDeltaStartingPoint,
+          endingPoint: negativeDeltaEndingPoint,
+          excludedIds: new Set([element.id]),
+        });
+        if (closestNegativeDeltaElement) {
+          return closestNegativeDeltaElement;
+        }
       }
 
-      positiveDeltaPointX = startingPoint.x + interval;
-      negativeDeltaPointX = startingPoint.x - interval;
+      positiveDeltaPointX += interval;
+      negativeDeltaPointX -= interval;
     }
   }
+
+  return null;
 };
 
 // Bresenham's line algorithm
@@ -291,35 +290,38 @@ export const getPointsAlongLine = ({
 };
 
 export const getElementSurroundings = (element: HTMLElement) => {
-  const excludedIds = new Set([element.id]);
+  const { top, bottom, left, right } = element.getBoundingClientRect();
+  const width = right - left;
+  const height = bottom - top;
 
-  const { top, left, right, bottom } = element.getBoundingClientRect();
-  const middlex = (left + right) / 2;
-  const middley = (top + bottom) / 2;
+  const leftElement = getClosestElementForElement({
+    element: element,
+    interval: width / 10,
+    direction: "left",
+  });
 
-  const leftElement = getClosestElementFromLine({
-    startingPoint: { x: left, y: middley },
-    endingPoint: { x: 0, y: middley },
-    excludedIds: excludedIds,
-  }) as HTMLElement;
+  const downElement = getClosestElementForElement({
+    element: element,
+    interval: height / 10,
+    direction: "down",
+  });
 
-  const downElement = getClosestElementFromLine({
-    startingPoint: { x: middlex, y: bottom },
-    endingPoint: { x: middlex, y: window.innerHeight },
-    excludedIds: excludedIds,
-  }) as HTMLElement;
+  const upElement = getClosestElementForElement({
+    element: element,
+    interval: height / 10,
+    direction: "up",
+  });
 
-  const upElement = getClosestElementFromLine({
-    startingPoint: { x: middlex, y: top },
-    endingPoint: { x: middlex, y: 0 },
-    excludedIds: excludedIds,
-  }) as HTMLElement;
+  const rightElement = getClosestElementForElement({
+    element: element,
+    interval: height / 10,
+    direction: "right",
+  });
 
-  const rightElement = getClosestElementFromLine({
-    startingPoint: { x: right, y: middley },
-    endingPoint: { x: window.innerWidth, y: middley },
-    excludedIds: excludedIds,
-  }) as HTMLElement;
+  console.log("left: ", leftElement);
+  console.log("down: ", downElement);
+  console.log("up: ", upElement);
+  console.log("right; ", rightElement);
 
   return { leftElement, downElement, upElement, rightElement };
 };
