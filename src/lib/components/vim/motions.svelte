@@ -8,6 +8,7 @@
 
   $: {
     if ($activeVimElement.selected) {
+      console.log("changing colors");
       $activeVimElement.selected.style.backgroundColor = "black";
     }
   }
@@ -30,6 +31,7 @@
       !$activeVimElement.selected &&
       (key === "h" || key === "j" || key === "k" || key === "l")
     ) {
+      console.log("initializing");
       const selected = document.getElementById("nav-jason-kwok")!;
       // horizontal line to the right of selected element
       const { top, left, right, bottom } = selected.getBoundingClientRect();
@@ -67,6 +69,7 @@
       return;
     }
 
+    console.log("changing");
     switch (key) {
       case "h":
         const left = $activeVimElement.left;
@@ -76,6 +79,7 @@
         break;
 
       case "j":
+        console.log("j");
         const down = $activeVimElement.down;
         if (!down) return;
         $activeVimElement.selected!.style.backgroundColor = "";

@@ -137,30 +137,28 @@ export const getPointsAlongLine = ({
 }) => {
   let points = [];
 
-  let startx = startingPoint.x;
-  let starty = startingPoint.y;
-  let endx = endingPoint.x;
-  let endy = endingPoint.y;
+  let [x0, y0] = [Math.round(startingPoint.x), Math.round(startingPoint.y)];
+  let [x1, y1] = [Math.round(endingPoint.x), Math.round(endingPoint.y)];
 
-  let dx = Math.abs(endx - startx);
-  let dy = Math.abs(endy - starty);
-  let sx = startx < endx ? 1 : -1;
-  let sy = starty < endy ? 1 : -1;
+  let dx = Math.abs(x1 - x0);
+  let dy = Math.abs(y1 - y0);
+  let sx = x0 < x1 ? 1 : -1;
+  let sy = y0 < y1 ? 1 : -1;
   let err = dx - dy;
 
   while (true) {
-    points.push({ x: startx, y: starty });
+    points.push({ x: x0, y: y0 });
 
-    if (startx === endx && starty === endy) break;
+    if (x0 === x1 && y0 === y1) break;
 
-    let e2 = 2 * err;
-    if (e2 > -dy) {
+    let err2 = 2 * err;
+    if (err2 > -dy) {
       err -= dy;
-      startx += sx;
+      x0 += sx;
     }
-    if (e2 < dx) {
+    if (err2 < dx) {
       err += dx;
-      starty += sy;
+      y0 += sy;
     }
   }
   return points;
@@ -183,37 +181,39 @@ export const getElementSurroundings = (element: HTMLElement) => {
   const middlex = (left + right) / 2;
   const middley = (top + bottom) / 2;
 
+  const idSet = new Set([
+    "nav-jason-kwok",
+    "nav-socials",
+    "nav-essays",
+    "nav-journal",
+  ]);
+  idSet.delete(element.id);
+
   const leftElement = getClosestElementFromLine({
     startingPoint: { x: left, y: middley },
     endingPoint: { x: 0, y: middley },
-    lookup: {
-      ids: new Set([
-        "nav-jason-kwok",
-        "nav-socials",
-        "nav-essays",
-        "nav-journal",
-      ]),
-      classes: classes,
-    },
+    lookup: { ids: idSet },
   }) as HTMLElement;
 
   const downElement = getClosestElementFromLine({
     startingPoint: { x: middlex, y: bottom },
     endingPoint: { x: middlex, y: window.innerHeight },
     lookup: {
-      ids: new Set(["nav-socials", "nav-essays", "nav-journal"]),
+      ids: idSet,
       classes: classes,
     },
   }) as HTMLElement;
 
   const upElement = getClosestElementFromLine({
-    startingPoint: { x: middlex, y: top },
+    startingPoint: { x: middlex, y: top + 1 },
     endingPoint: { x: middlex, y: 0 },
     lookup: {
-      ids: new Set(["nav-jason-kwok", "nav-socials", "nav-essays"]),
+      ids: idSet,
       classes: classes,
     },
   }) as HTMLElement;
+
+  console.log(upElement);
 
   const rightElement = getClosestElementFromLine({
     startingPoint: { x: right, y: middley },
