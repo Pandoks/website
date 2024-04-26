@@ -86,27 +86,27 @@
       $activeVimElement.selected = selected;
       $activeVimElement.down = document.getElementById("nav-socials")!;
       switch (window.location.pathname) {
-        case "socials":
+        case "/socials":
           $activeVimElement.right = getClosestElementFromLine({
             startingPoint,
             endingPoint,
-            lookup: { classes: new Set(["social-link"]) },
+            inclusion: { classes: new Set(["social-link"]) },
           }) as HTMLElement;
           break;
 
-        case "essays":
+        case "/essays":
           $activeVimElement.right = getClosestElementFromLine({
             startingPoint,
             endingPoint,
-            lookup: { classes: new Set(["essay-link"]) },
+            inclusion: { classes: new Set(["essay-link"]) },
           }) as HTMLElement;
           break;
 
-        case "journal":
+        case "/journal":
           $activeVimElement.right = getClosestElementFromLine({
             startingPoint,
             endingPoint,
-            lookup: { classes: new Set(["timeline-item"]) },
+            inclusion: { classes: new Set(["timeline-item"]) },
           }) as HTMLElement;
           break;
       }
