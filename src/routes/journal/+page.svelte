@@ -4,6 +4,7 @@
   import type { Post } from "$lib/types.js";
   import { onMount, tick } from "svelte";
   import { goto } from "$app/navigation";
+  import { scrollToView } from "$lib/journal/utils.js";
 
   let loaded = false; // partial component flicker replaced with entire component flicker
 
@@ -56,19 +57,6 @@
         keepFocus: true,
       });
     }
-  };
-
-  const scrollToView = (element: Element): Promise<void> => {
-    return new Promise((resolve) => {
-      const top_gap = (window.innerHeight * 27) / 100;
-      let { left, top } = element.getBoundingClientRect();
-
-      setTimeout(() => {
-        ({ left, top } = element.getBoundingClientRect());
-        window.scrollBy(left, top - top_gap);
-        resolve();
-      });
-    });
   };
 
   const updateBottomPadding = () => {

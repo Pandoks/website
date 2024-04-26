@@ -90,7 +90,7 @@ export const getClosestElementFromLine = ({
 
   for (let i = 0; i < linePoints.length; i++) {
     const { x, y } = linePoints[i];
-    const elements = document.elementsFromPoint(x, y);
+    const elements = document.elementsFromPoint(x, y) as HTMLElement[];
 
     for (let i = 0; i < elements.length; i++) {
       if (!elements[i].id || (excludedIds && excludedIds.has(elements[i].id))) {
