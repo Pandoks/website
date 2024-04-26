@@ -1,13 +1,10 @@
 <script lang="ts">
   import { activeVimElement } from "$lib/stores";
   import {
-    findClosestElementOnLine,
     getClosestElementFromLine,
-    getElementsFromLine,
+    getElementSurroundings,
   } from "$lib/utils";
   import { onMount } from "svelte";
-
-  export let element: string;
 
   const handleKey = (event: KeyboardEvent) => {
     const key = event.key;
@@ -21,6 +18,7 @@
       });
       return;
     }
+
     if (
       !$activeVimElement.selected &&
       (key === "h" || key === "j" || key === "k" || key === "l")
@@ -35,7 +33,7 @@
       $activeVimElement.down = document.getElementById("nav-socials")!;
       switch (window.location.pathname) {
         case "socials":
-          $activeVimElement.right = findClosestElementOnLine({
+          $activeVimElement.right = getClosestElementFromLine({
             startingPoint,
             endingPoint,
             lookup: { classes: new Set(["social-link"]) },
@@ -43,7 +41,7 @@
           break;
 
         case "essays":
-          $activeVimElement.right = findClosestElementOnLine({
+          $activeVimElement.right = getClosestElementFromLine({
             startingPoint,
             endingPoint,
             lookup: { classes: new Set(["essay-link"]) },
@@ -51,7 +49,7 @@
           break;
 
         case "journal":
-          $activeVimElement.right = findClosestElementOnLine({
+          $activeVimElement.right = getClosestElementFromLine({
             startingPoint,
             endingPoint,
             lookup: { classes: new Set(["timeline-item"]) },
@@ -62,53 +60,37 @@
       return;
     }
 
-    switch (window.location.pathname) {
-      case "socials":
-        if (key === "h") {
-          const leftElement = $activeVimElement.left;
-          if (!leftElement) return;
-          const { top, left, right, bottom } =
-            leftElement.getBoundingClientRect();
-        }
-        $activeVimElement.right = findClosestElementOnLine({
-          startingPoint,
-          endingPoint,
-          lookup: { classes: new Set(["social-link"]) },
-        }) as HTMLElement;
-        $activeVimElement.right = getClosestElementFromLine({
-          startingPoint,
-          endingPoint,
-          lookup: { classes: new Set(["social-link"]) },
-        }) as HTMLElement;
-        break;
-
-      case "essays":
-        $activeVimElement.right = findClosestElementOnLine({
-          startingPoint,
-          endingPoint,
-          lookup: { classes: new Set(["essay-link"]) },
-        }) as HTMLElement;
-        break;
-
-      case "journal":
-        $activeVimElement.right = findClosestElementOnLine({
-          startingPoint,
-          endingPoint,
-          lookup: { classes: new Set(["timeline-item"]) },
-        }) as HTMLElement;
-        break;
-    }
-
     switch (key) {
       case "h":
         const left = $activeVimElement.left;
         if (!left) return;
         $activeVimElement.selected = left;
         break;
+
       case "j":
+        const down = $activeVimElement.down;
+        if (!down) return;
+        $activeVimElement.selected = down;
+        break;
+
       case "k":
+        const up = $activeVimElement.up;
+        if (!up) return;
+        $activeVimElement.selected = up;
+        break;
+
       case "l":
+        const right = $activeVimElement.right;
+        if (!right) return;
+        $activeVimElement.selected = right;
+        break;
     }
+    const { leftElement, downElement, upElement, rightElement } =
+      getElementSurroundings($activeVimElement.selected!);
+    $activeVimElement.left = leftElement;
+    $activeVimElement.down = downElement;
+    $activeVimElement.up = upElement;
+    $activeVimElement.right = rightElement;
   };
 
   onMount(() => {

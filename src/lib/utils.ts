@@ -1,3 +1,6 @@
+import type { Writable } from "svelte/store";
+import type { VimNavigationElement } from "./types";
+
 // ordering of the returned list is left top most element to left bottom element to right most
 export const getElementsFromLine = ({
   startingPoint,
@@ -161,4 +164,64 @@ export const getPointsAlongLine = ({
     }
   }
   return points;
+};
+
+export const getElementSurroundings = (element: HTMLElement) => {
+  let classes = new Set<string>();
+  switch (window.location.pathname) {
+    case "socials":
+      classes.add("social-link");
+      break;
+    case "essays":
+      classes.add("essay-link");
+      break;
+    case "journal":
+      classes.add("timeline-item");
+  }
+
+  const { top, left, right, bottom } = element.getBoundingClientRect();
+  const middlex = (left + right) / 2;
+  const middley = (top + bottom) / 2;
+
+  const leftElement = getClosestElementFromLine({
+    startingPoint: { x: left, y: middley },
+    endingPoint: { x: 0, y: middley },
+    lookup: {
+      ids: new Set([
+        "nav-jason-kwok",
+        "nav-socials",
+        "nav-essays",
+        "nav-journal",
+      ]),
+      classes: classes,
+    },
+  }) as HTMLElement;
+
+  const downElement = getClosestElementFromLine({
+    startingPoint: { x: middlex, y: bottom },
+    endingPoint: { x: middlex, y: window.innerHeight },
+    lookup: {
+      ids: new Set(["nav-socials", "nav-essays", "nav-journal"]),
+      classes: classes,
+    },
+  }) as HTMLElement;
+
+  const upElement = getClosestElementFromLine({
+    startingPoint: { x: middlex, y: top },
+    endingPoint: { x: middlex, y: 0 },
+    lookup: {
+      ids: new Set(["nav-jason-kwok", "nav-socials", "nav-essays"]),
+      classes: classes,
+    },
+  }) as HTMLElement;
+
+  const rightElement = getClosestElementFromLine({
+    startingPoint: { x: right, y: middley },
+    endingPoint: { x: window.innerWidth, y: middley },
+    lookup: {
+      classes: classes,
+    },
+  }) as HTMLElement;
+
+  return { leftElement, downElement, upElement, rightElement };
 };
