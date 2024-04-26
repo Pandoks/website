@@ -18,6 +18,7 @@
   onMount(() => {
     document.addEventListener("keydown", handleKey);
     document.addEventListener("click", resetVim);
+    document.addEventListener("scroll", handleScroll);
   });
 
   afterNavigate(() => {
@@ -34,6 +35,15 @@
       return;
     }
   });
+
+  const handleScroll = () => {
+    const { leftElement, downElement, upElement, rightElement } =
+      getElementSurroundings($activeVimElement.selected!);
+    $activeVimElement.left = leftElement;
+    $activeVimElement.down = downElement;
+    $activeVimElement.up = upElement;
+    $activeVimElement.right = rightElement;
+  };
 
   const resetVim = () => {
     if ($activeVimElement.selected) {
@@ -101,7 +111,6 @@
           $activeVimElement.right = getClosestElementFromLine({
             startingPoint,
             endingPoint,
-            inclusion: { classes: new Set(["social-link"]) },
           }) as HTMLElement;
           break;
 
@@ -109,7 +118,6 @@
           $activeVimElement.right = getClosestElementFromLine({
             startingPoint,
             endingPoint,
-            inclusion: { classes: new Set(["essay-link"]) },
           }) as HTMLElement;
           break;
 
@@ -117,7 +125,6 @@
           $activeVimElement.right = getClosestElementFromLine({
             startingPoint,
             endingPoint,
-            inclusion: { classes: new Set(["timeline-item"]) },
           }) as HTMLElement;
           break;
       }
