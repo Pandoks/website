@@ -3,6 +3,7 @@
   import { activeVimElement } from "$lib/stores";
   import {
     addYank,
+    getClosestElementForElement,
     getClosestElementFromLine,
     getElementSurroundings,
   } from "$lib/components/vim/motions";
@@ -78,33 +79,16 @@
     document.addEventListener("scroll", handleScroll);
 
     const selected = document.getElementById("nav-jason-kwok")!;
-    const { top, left, right, bottom } = selected.getBoundingClientRect();
-    const startingPoint = { x: right, y: (top + bottom) / 2 };
-    const endingPoint = { x: window.innerWidth, y: (top + bottom) / 2 };
 
     $activeVimElement.selected = selected;
     $activeVimElement.down = document.getElementById("nav-socials")!;
-    switch (window.location.pathname) {
-      case "/socials":
-        $activeVimElement.right = getClosestElementFromLine({
-          startingPoint,
-          endingPoint,
-        }) as HTMLElement;
-        break;
-
-      case "/essays":
-        $activeVimElement.right = getClosestElementFromLine({
-          startingPoint,
-          endingPoint,
-        }) as HTMLElement;
-        break;
-
-      case "/journal":
-        $activeVimElement.right = getClosestElementFromLine({
-          startingPoint,
-          endingPoint,
-        }) as HTMLElement;
-        break;
+    const INTERVAL = 10;
+    if (window.location.pathname !== "/") {
+      $activeVimElement.right = getClosestElementForElement({
+        element: selected,
+        interval: INTERVAL,
+        direction: "right",
+      });
     }
   };
 
