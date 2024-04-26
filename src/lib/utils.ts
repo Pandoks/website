@@ -1,29 +1,25 @@
 // ordering of the returned list is left top most element to left bottom element to right most
 export const getElementsFromLine = ({
-  startx,
-  endx,
-  starty,
-  endy,
+  startingPoint,
+  endingPoint,
   lookup,
 }: {
-  startx: number;
-  endx: number;
-  starty: number;
-  endy: number;
+  startingPoint: { x: number; y: number };
+  endingPoint: { x: number; y: number };
   lookup?: {
     ids?: Set<string>;
     classes?: Set<string>;
   };
 }) => {
   if (
-    startx < 0 ||
-    startx > endx ||
-    endx > window.innerWidth ||
-    startx > window.innerWidth ||
-    starty < 0 ||
-    starty > endy ||
-    endy > window.innerHeight ||
-    starty > window.innerHeight
+    startingPoint.x < 0 ||
+    startingPoint.x > window.innerWidth ||
+    endingPoint.x < 0 ||
+    endingPoint.x > window.innerWidth ||
+    startingPoint.y < 0 ||
+    startingPoint.y > window.innerHeight ||
+    endingPoint.y < 0 ||
+    endingPoint.y > window.innerHeight
   ) {
     throw new Error("Coordinates need to be within the window size");
   }
@@ -32,7 +28,7 @@ export const getElementsFromLine = ({
   const cacheElementList = new Set();
   const elementList = [];
 
-  const linePoints = getPointsAlongLine({ startx, endx, starty, endy });
+  const linePoints = getPointsAlongLine({ startingPoint, endingPoint });
   for (let i = 0; i < linePoints.length; i++) {
     const { x, y } = linePoints[i];
     const elements = document.elementsFromPoint(x, y);
@@ -70,17 +66,19 @@ export const getElementsFromLine = ({
 
 // Bresenham's line algorithm
 export const getPointsAlongLine = ({
-  startx,
-  endx,
-  starty,
-  endy,
+  startingPoint,
+  endingPoint,
 }: {
-  startx: number;
-  endx: number;
-  starty: number;
-  endy: number;
+  startingPoint: { x: number; y: number };
+  endingPoint: { x: number; y: number };
 }) => {
   let points = [];
+
+  let startx = startingPoint.x;
+  let starty = startingPoint.y;
+  let endx = endingPoint.x;
+  let endy = endingPoint.y;
+
   let dx = Math.abs(endx - startx);
   let dy = Math.abs(endy - starty);
   let sx = startx < endx ? 1 : -1;
