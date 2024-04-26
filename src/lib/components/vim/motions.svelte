@@ -6,9 +6,16 @@
   } from "$lib/utils";
   import { onMount } from "svelte";
 
+  $: {
+    if ($activeVimElement.selected) {
+      $activeVimElement.selected.style.backgroundColor = "black";
+    }
+  }
+
   const handleKey = (event: KeyboardEvent) => {
     const key = event.key;
-    if (key === "Escape") {
+    if (key === "Escape" && $activeVimElement.selected) {
+      $activeVimElement.selected.style.backgroundColor = "";
       activeVimElement.set({
         selected: null,
         left: null,
@@ -64,24 +71,28 @@
       case "h":
         const left = $activeVimElement.left;
         if (!left) return;
+        $activeVimElement.selected!.style.backgroundColor = "";
         $activeVimElement.selected = left;
         break;
 
       case "j":
         const down = $activeVimElement.down;
         if (!down) return;
+        $activeVimElement.selected!.style.backgroundColor = "";
         $activeVimElement.selected = down;
         break;
 
       case "k":
         const up = $activeVimElement.up;
         if (!up) return;
+        $activeVimElement.selected!.style.backgroundColor = "";
         $activeVimElement.selected = up;
         break;
 
       case "l":
         const right = $activeVimElement.right;
         if (!right) return;
+        $activeVimElement.selected!.style.backgroundColor = "";
         $activeVimElement.selected = right;
         break;
     }
