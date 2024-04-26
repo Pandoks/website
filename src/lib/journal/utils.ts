@@ -1,13 +1,16 @@
-let scrollTimeout: number | null = null;
+let scrollTimeouts: Set<number> = new Set();
 
 export const scrollToView = (element: Element) => {
-  if (scrollTimeout) {
-    clearTimeout(scrollTimeout);
+  if (scrollTimeouts.size > 0) {
+    scrollTimeouts.forEach(clearTimeout);
+    scrollTimeouts.clear();
   }
 
-  scrollTimeout = setTimeout(() => {
+  const timeoutId = setTimeout(() => {
     const top_gap = (window.innerHeight * 27) / 100;
     let { left, top } = element.getBoundingClientRect();
     window.scrollBy({ top: top - top_gap, left });
-  });
+  }, 0);
+
+  scrollTimeouts.add(timeoutId);
 };

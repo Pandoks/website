@@ -189,7 +189,7 @@
       window.location.pathname === "/journal" &&
       $activeVimElement.selected.className.includes("timeline-item")
     ) {
-      await scrollToView($activeVimElement.selected);
+      scrollToView($activeVimElement.selected);
     }
 
     const { leftElement, downElement, upElement, rightElement } =

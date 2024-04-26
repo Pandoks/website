@@ -27,7 +27,7 @@
         keepFocus: true,
       });
       window.removeEventListener("scroll", updateURL);
-      await scrollToView(document.getElementById(hash)!);
+      scrollToView(document.getElementById(hash)!);
       window.addEventListener("scroll", updateURL);
     }
     if (mode === "single" && opened.length) opened = opened.slice(-1);
