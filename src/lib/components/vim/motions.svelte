@@ -7,8 +7,6 @@
   } from "$lib/utils";
   import { onMount } from "svelte";
 
-  const backgroundColor = "black";
-
   const selectVimStyle = (element: HTMLElement) => {
     if (!element) {
       return;
