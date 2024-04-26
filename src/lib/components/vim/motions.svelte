@@ -4,7 +4,7 @@
   import {
     getClosestElementFromLine,
     getElementSurroundings,
-  } from "$lib/utils";
+  } from "$lib/components/vim/motions";
   import { onMount } from "svelte";
 
   const selectVimStyle = (element: HTMLElement) => {
