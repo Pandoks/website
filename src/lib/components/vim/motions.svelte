@@ -6,6 +6,7 @@
     getElementSurroundings,
   } from "$lib/components/vim/motions";
   import { onMount } from "svelte";
+  import { scrollToView } from "$lib/journal/utils";
 
   const selectVimStyle = (element: HTMLElement) => {
     if (!element) {
@@ -75,7 +76,6 @@
     document.addEventListener("scroll", handleScroll);
 
     const selected = document.getElementById("nav-jason-kwok")!;
-    // horizontal line to the right of selected element
     const { top, left, right, bottom } = selected.getBoundingClientRect();
     const startingPoint = { x: right, y: (top + bottom) / 2 };
     const endingPoint = { x: window.innerWidth, y: (top + bottom) / 2 };
@@ -106,7 +106,7 @@
     }
   };
 
-  const handleKey = (event: KeyboardEvent) => {
+  const handleKey = async (event: KeyboardEvent) => {
     const key = event.key;
 
     if (key === "Escape" && $activeVimElement.selected) {
@@ -182,6 +182,14 @@
       default:
         return;
     }
+
+    if (
+      window.location.pathname === "/journal" &&
+      $activeVimElement.selected.className.includes("timeline-item")
+    ) {
+      await scrollToView($activeVimElement.selected);
+    }
+
     const { leftElement, downElement, upElement, rightElement } =
       getElementSurroundings($activeVimElement.selected!);
     $activeVimElement.left = leftElement;
