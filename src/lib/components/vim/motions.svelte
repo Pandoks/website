@@ -13,7 +13,7 @@
     if (!element) {
       return;
     }
-    element.style.backgroundColor = "#CDD6F4";
+    element.style.backgroundColor = "#e8e8e8";
   };
 
   const resetVimStyle = (element: HTMLElement) => {
