@@ -14,6 +14,7 @@
   let mode = "multiple";
 
   const handleClick = async (hash: string) => {
+    console.log(hash);
     if (opened.includes(hash)) {
       opened = opened.filter((entry) => entry !== hash);
       setTimeout(() => {

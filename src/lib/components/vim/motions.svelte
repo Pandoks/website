@@ -29,8 +29,6 @@
 
   onMount(() => {
     document.addEventListener("keydown", handleKey);
-    document.addEventListener("click", resetVim);
-    document.addEventListener("scroll", handleScroll);
   });
 
   afterNavigate(() => {
@@ -58,6 +56,8 @@
   };
 
   const resetVim = () => {
+    document.removeEventListener("click", resetVim);
+    document.removeEventListener("scroll", handleScroll);
     if ($activeVimElement.selected) {
       resetVimStyle($activeVimElement.selected!);
       activeVimElement.set({
@@ -67,6 +67,42 @@
         up: null,
         right: null,
       });
+    }
+  };
+
+  const initializeVim = () => {
+    document.addEventListener("click", resetVim);
+    document.addEventListener("scroll", handleScroll);
+
+    const selected = document.getElementById("nav-jason-kwok")!;
+    // horizontal line to the right of selected element
+    const { top, left, right, bottom } = selected.getBoundingClientRect();
+    const startingPoint = { x: right, y: (top + bottom) / 2 };
+    const endingPoint = { x: window.innerWidth, y: (top + bottom) / 2 };
+
+    $activeVimElement.selected = selected;
+    $activeVimElement.down = document.getElementById("nav-socials")!;
+    switch (window.location.pathname) {
+      case "/socials":
+        $activeVimElement.right = getClosestElementFromLine({
+          startingPoint,
+          endingPoint,
+        }) as HTMLElement;
+        break;
+
+      case "/essays":
+        $activeVimElement.right = getClosestElementFromLine({
+          startingPoint,
+          endingPoint,
+        }) as HTMLElement;
+        break;
+
+      case "/journal":
+        $activeVimElement.right = getClosestElementFromLine({
+          startingPoint,
+          endingPoint,
+        }) as HTMLElement;
+        break;
     }
   };
 
@@ -110,37 +146,7 @@
       !$activeVimElement.selected &&
       (key === "h" || key === "j" || key === "k" || key === "l")
     ) {
-      const selected = document.getElementById("nav-jason-kwok")!;
-      // horizontal line to the right of selected element
-      const { top, left, right, bottom } = selected.getBoundingClientRect();
-      const startingPoint = { x: right, y: (top + bottom) / 2 };
-      const endingPoint = { x: window.innerWidth, y: (top + bottom) / 2 };
-
-      $activeVimElement.selected = selected;
-      $activeVimElement.down = document.getElementById("nav-socials")!;
-      switch (window.location.pathname) {
-        case "/socials":
-          $activeVimElement.right = getClosestElementFromLine({
-            startingPoint,
-            endingPoint,
-          }) as HTMLElement;
-          break;
-
-        case "/essays":
-          $activeVimElement.right = getClosestElementFromLine({
-            startingPoint,
-            endingPoint,
-          }) as HTMLElement;
-          break;
-
-        case "/journal":
-          $activeVimElement.right = getClosestElementFromLine({
-            startingPoint,
-            endingPoint,
-          }) as HTMLElement;
-          break;
-      }
-
+      initializeVim();
       return;
     }
 
