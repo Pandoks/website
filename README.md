@@ -4,20 +4,22 @@
 
 ## Cool Easter Eggs
 
-Checkout [pandoks.com/journal](https://pandoks.com/journal). Your URL will automatically change
-based off of which journal entry you're reading so all you have to do is `<M+l> + <M+c>` to share
-the entry.
+### Auto updating links
 
-## Upcoming Features
+Checkout [pandoks.com/journal](https://pandoks.com/journal). Your URL will automatically change
+based off of which journal entry you're reading so all you have to do is `<meta> + <l>` and
+`<meta> + <c>` to share the entry.
 
 ### Vim
 
-#### Yank
-
 `y` will automatically copy the URL.
 
-#### Motions
+`hjkl` for navigating throughout the website.
 
-Navigate throughout the entire website using `hjkl` and common motions.
+`<enter>` to click
+
+_If you use your mouse for anything, you'll lose your spot_
+
+## Upcoming Features
 
 ### Dark Mode
