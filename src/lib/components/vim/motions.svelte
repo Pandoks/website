@@ -109,7 +109,8 @@
       key === "Enter" &&
       $activeVimElement.selected &&
       $activeVimElement.selected.querySelector("button") &&
-      window.location.pathname === "/journal"
+      (window.location.pathname === "/journal" ||
+        window.location.pathname === "/journal/")
     ) {
       const savedActiveElementId = $activeVimElement.selected.id;
       $activeVimElement.selected.querySelector("button")!.click();
@@ -171,7 +172,8 @@
     }
 
     if (
-      window.location.pathname === "/journal" &&
+      (window.location.pathname === "/journal" ||
+        window.location.pathname === "/journal/") &&
       $activeVimElement.selected.className.includes("timeline-item")
     ) {
       scrollToView($activeVimElement.selected);
