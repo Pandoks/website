@@ -3,6 +3,7 @@
   import { activeVimElement } from "$lib/stores";
   import {
     getClosestElementForElement,
+    getClosestElementFromLine,
     getElementSurroundings,
   } from "$lib/components/vim/motions";
   import { onMount } from "svelte";
@@ -176,15 +177,37 @@
         window.location.pathname === "/journal/") &&
       $activeVimElement.selected.className.includes("timeline-item")
     ) {
-      scrollToView($activeVimElement.selected);
-    }
+      $activeVimElement.left = getClosestElementForElement({
+        element: $activeVimElement.selected,
+        interval: 10,
+        direction: "left",
+      });
 
-    const { leftElement, downElement, upElement, rightElement } =
-      getElementSurroundings($activeVimElement.selected!);
-    $activeVimElement.left = leftElement;
-    $activeVimElement.down = downElement;
-    $activeVimElement.up = upElement;
-    $activeVimElement.right = rightElement;
+      const { top, bottom, left, right } =
+        $activeVimElement.selected.getBoundingClientRect();
+      const middlex = (left + right) / 2;
+      const excludedIds = new Set([$activeVimElement.selected.id]);
+
+      $activeVimElement.up = getClosestElementFromLine({
+        startingPoint: { x: middlex, y: top },
+        endingPoint: { x: middlex, y: 0 },
+        excludedIds: excludedIds,
+      });
+      $activeVimElement.down = getClosestElementFromLine({
+        startingPoint: { x: middlex, y: bottom },
+        endingPoint: { x: middlex, y: window.innerHeight },
+        excludedIds: excludedIds,
+      });
+
+      scrollToView($activeVimElement.selected);
+    } else {
+      const { leftElement, downElement, upElement, rightElement } =
+        getElementSurroundings($activeVimElement.selected!);
+      $activeVimElement.left = leftElement;
+      $activeVimElement.down = downElement;
+      $activeVimElement.up = upElement;
+      $activeVimElement.right = rightElement;
+    }
   };
 </script>
 
