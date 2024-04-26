@@ -21,6 +21,7 @@
   });
 
   afterNavigate(() => {
+    // selected element is deleted because of new page render so need to redo
     if ($activeVimElement.selected) {
       const newId = $activeVimElement.selected.id;
       $activeVimElement.selected = document.getElementById(newId);
@@ -69,7 +70,17 @@
       $activeVimElement.selected.querySelector("button") &&
       window.location.pathname === "/journal"
     ) {
+      const savedActiveElementId = $activeVimElement.selected.id;
       $activeVimElement.selected.querySelector("button")!.click();
+      const activeElement = document.getElementById(savedActiveElementId)!;
+      $activeVimElement.selected = activeElement;
+      const { leftElement, downElement, upElement, rightElement } =
+        getElementSurroundings($activeVimElement.selected!);
+      $activeVimElement.left = leftElement;
+      $activeVimElement.down = downElement;
+      $activeVimElement.up = upElement;
+      $activeVimElement.right = rightElement;
+
       return;
     }
 
