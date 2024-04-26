@@ -10,7 +10,7 @@ export const scrollToView = (element: Element) => {
     const top_gap = (window.innerHeight * 27) / 100;
     let { left, top } = element.getBoundingClientRect();
     window.scrollBy({ top: top - top_gap, left });
-  }, 0);
+  });
 
   scrollTimeouts.add(timeoutId);
 };

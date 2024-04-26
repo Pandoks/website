@@ -177,6 +177,10 @@
         window.location.pathname === "/journal/") &&
       $activeVimElement.selected.className.includes("timeline-item")
     ) {
+      document.removeEventListener("scroll", handleScroll);
+      scrollToView($activeVimElement.selected);
+      document.addEventListener("scroll", handleScroll);
+
       $activeVimElement.left = getClosestElementForElement({
         element: $activeVimElement.selected,
         interval: 10,
@@ -198,8 +202,6 @@
         endingPoint: { x: middlex, y: window.innerHeight },
         excludedIds: excludedIds,
       });
-
-      scrollToView($activeVimElement.selected);
     } else {
       const { leftElement, downElement, upElement, rightElement } =
         getElementSurroundings($activeVimElement.selected!);
