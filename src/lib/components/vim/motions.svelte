@@ -45,46 +45,52 @@
       (key === "h" || key === "j" || key === "k" || key === "l")
     ) {
       const selected = document.getElementById("nav-jason-kwok")!;
-      const down = document.getElementById("nav-socials")!;
-      let right = null;
+      $activeVimElement.selected = selected;
+      $activeVimElement.down = document.getElementById("nav-socials")!;
       switch (window.location.pathname) {
         case "socials":
-          right = findClosestRightElement({
+          $activeVimElement.right = findClosestRightElement({
             element: selected,
             lookup: { classes: new Set(["social-link"]) },
-          });
+          }) as HTMLElement;
           break;
 
         case "essays":
-          right = findClosestRightElement({
+          $activeVimElement.right = findClosestRightElement({
             element: selected,
             lookup: { classes: new Set(["essay-link"]) },
-          });
+          }) as HTMLElement;
           break;
 
         case "journal":
-          right = findClosestRightElement({
+          $activeVimElement.right = findClosestRightElement({
             element: selected,
-            lookup: { classes: new Set(["essay-link"]) },
-          });
+            lookup: { classes: new Set(["timeline-item"]) },
+          }) as HTMLElement;
           break;
       }
 
-      activeVimElement.set({
-        selected: selected,
-        left: null,
-        down: down,
-        up: null,
-        right: right as HTMLElement | null,
-      });
-    } else if (key === "Escape") {
-      activeVimElement.set({
-        selected: null,
-        left: null,
-        down: null,
-        up: null,
-        right: null,
-      });
+      return;
+    }
+
+    switch (key) {
+      case "h":
+        const left = $activeVimElement.left;
+        if (!left) return;
+        $activeVimElement.selected = left;
+        break;
+      case "j":
+      case "k":
+      case "l":
+      case "Escape":
+        activeVimElement.set({
+          selected: null,
+          left: null,
+          down: null,
+          up: null,
+          right: null,
+        });
+        break;
     }
   };
 
