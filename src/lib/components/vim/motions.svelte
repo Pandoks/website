@@ -2,6 +2,7 @@
   import { afterNavigate, goto } from "$app/navigation";
   import { activeVimElement } from "$lib/stores";
   import {
+    addYank,
     getClosestElementFromLine,
     getElementSurroundings,
   } from "$lib/components/vim/motions";
@@ -30,6 +31,7 @@
 
   onMount(() => {
     document.addEventListener("keydown", handleKey);
+    addYank();
   });
 
   afterNavigate(() => {

@@ -1,13 +1,7 @@
 <script lang="ts">
   import Navigation from "$lib/components/layout/navigation.svelte";
   import Content from "$lib/components/layout/content.svelte";
-  import { onMount } from "svelte";
-  import { addYank } from "$lib/components/vim/yank";
   import Motions from "$lib/components/vim/motions.svelte";
-
-  onMount(() => {
-    addYank();
-  });
 </script>
 
 <Motions
