@@ -68,15 +68,21 @@ export const getElementsFromLine = ({
 export const getClosestElementFromLine = ({
   startingPoint,
   endingPoint,
-  lookup,
+  inclusion,
+  exclusion,
 }: {
   startingPoint: { x: number; y: number };
   endingPoint: { x: number; y: number };
-  lookup?: {
+  inclusion?: {
+    ids?: Set<string>;
+    classes?: Set<string>;
+  };
+  exclusion?: {
     ids?: Set<string>;
     classes?: Set<string>;
   };
 }) => {
+  console.log(inclusion);
   if (
     startingPoint.x < 0 ||
     startingPoint.x > window.innerWidth ||
@@ -90,7 +96,7 @@ export const getClosestElementFromLine = ({
     throw new Error("Coordinates need to be within the window size");
   }
 
-  if (!lookup || (!lookup.ids && !lookup.classes)) {
+  if (!inclusion || (!inclusion.ids && !inclusion.classes)) {
     return document.elementFromPoint(startingPoint.x, startingPoint.y);
   }
 
@@ -102,23 +108,39 @@ export const getClosestElementFromLine = ({
   for (let i = 0; i < linePoints.length; i++) {
     const { x, y } = linePoints[i];
     const elements = document.elementsFromPoint(x, y);
-    if (cacheElementList.has(elements)) {
+    if (cacheElementList.has(elements.toString())) {
       continue;
     }
-
-    cacheElementList.add(elements);
+    cacheElementList.add(elements.toString());
 
     for (let i = 0; i < elements.length; i++) {
-      if (lookupElements.has(elements[i])) {
+      if (lookupElements.has(elements[i].outerHTML)) {
         continue;
       }
-      lookupElements.add(elements[i]);
+      lookupElements.add(elements[i].outerHTML);
 
-      if (lookup.ids && lookup.ids.has(elements[i].id)) {
+      const hasExcludedId =
+        exclusion && exclusion.ids && exclusion.ids.has(elements[i].id);
+      const hasExcludedClass =
+        exclusion &&
+        exclusion.classes &&
+        !Array.from(exclusion.classes).every(
+          (cls) => !elements[i].className.includes(cls),
+        );
+      if (hasExcludedId || hasExcludedClass) {
+        continue;
+      }
+
+      if (inclusion.ids && inclusion.ids.has(elements[i].id)) {
         return elements[i];
       }
 
-      if (lookup.classes && lookup.classes.has(elements[i].className)) {
+      if (
+        inclusion.classes &&
+        !Array.from(inclusion.classes).every(
+          (cls) => !elements[i].className.includes(cls),
+        )
+      ) {
         return elements[i];
       }
     }
@@ -166,16 +188,18 @@ export const getPointsAlongLine = ({
 
 export const getElementSurroundings = (element: HTMLElement) => {
   let classes = new Set<string>();
+  console.log("test:", window.location.pathname);
   switch (window.location.pathname) {
-    case "socials":
+    case "/socials":
       classes.add("social-link");
       break;
-    case "essays":
+    case "/essays":
       classes.add("essay-link");
       break;
-    case "journal":
+    case "/journal":
       classes.add("timeline-item");
   }
+  console.log(classes);
 
   const { top, left, right, bottom } = element.getBoundingClientRect();
   const middlex = (left + right) / 2;
@@ -192,13 +216,13 @@ export const getElementSurroundings = (element: HTMLElement) => {
   const leftElement = getClosestElementFromLine({
     startingPoint: { x: left, y: middley },
     endingPoint: { x: 0, y: middley },
-    lookup: { ids: idSet },
+    inclusion: { ids: idSet, classes: classes },
   }) as HTMLElement;
 
   const downElement = getClosestElementFromLine({
     startingPoint: { x: middlex, y: bottom },
     endingPoint: { x: middlex, y: window.innerHeight },
-    lookup: {
+    inclusion: {
       ids: idSet,
       classes: classes,
     },
@@ -207,16 +231,17 @@ export const getElementSurroundings = (element: HTMLElement) => {
   const upElement = getClosestElementFromLine({
     startingPoint: { x: middlex, y: top + 1 },
     endingPoint: { x: middlex, y: 0 },
-    lookup: {
+    inclusion: {
       ids: idSet,
       classes: classes,
     },
   }) as HTMLElement;
 
+  console.log("right");
   const rightElement = getClosestElementFromLine({
     startingPoint: { x: right, y: middley },
     endingPoint: { x: window.innerWidth, y: middley },
-    lookup: {
+    inclusion: {
       classes: classes,
     },
   }) as HTMLElement;

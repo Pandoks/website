@@ -12,6 +12,7 @@
   $: {
     if ($activeVimElement.selected) {
       $activeVimElement.selected.style.backgroundColor = backgroundColor;
+      console.log($activeVimElement);
     }
   }
 
