@@ -196,7 +196,6 @@ export const getElementSurroundings = (element: HTMLElement) => {
   inclusiveIds.delete(element.id);
 
   let inclusiveClasses = new Set<string>();
-  console.log("test:", window.location.pathname);
   switch (window.location.pathname) {
     case "/socials":
       inclusiveClasses.add("social-link");
@@ -208,11 +207,11 @@ export const getElementSurroundings = (element: HTMLElement) => {
       inclusiveClasses.add("timeline-item");
   }
 
+  const exclusiveIds = new Set([element.id]);
+
   const { top, left, right, bottom } = element.getBoundingClientRect();
   const middlex = (left + right) / 2;
   const middley = (top + bottom) / 2;
-
-  const exclusiveIds = new Set([element.id]);
 
   const leftElement = getClosestElementFromLine({
     startingPoint: { x: left, y: middley },

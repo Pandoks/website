@@ -18,9 +18,11 @@
 
   onMount(() => {
     document.addEventListener("keydown", handleKey);
+    document.addEventListener("click", handleClick);
   });
 
   afterNavigate(() => {
+    console.log("navigation");
     if ($activeVimElement.selected) {
       const newId = $activeVimElement.selected.id;
       $activeVimElement.selected = document.getElementById(newId);
@@ -32,6 +34,19 @@
       $activeVimElement.right = rightElement;
     }
   });
+
+  const handleClick = () => {
+    if ($activeVimElement.selected) {
+      $activeVimElement.selected.style.backgroundColor = "";
+      activeVimElement.set({
+        selected: null,
+        left: null,
+        down: null,
+        up: null,
+        right: null,
+      });
+    }
+  };
 
   const handleKey = (event: KeyboardEvent) => {
     const key = event.key;
@@ -52,11 +67,7 @@
 
     if (key === "Enter" && $activeVimElement.selected) {
       const href = $activeVimElement.selected.getAttribute("href")!;
-      goto(href).then(() => {
-        if ($activeVimElement.selected) {
-          $activeVimElement.selected.style.backgroundColor = backgroundColor;
-        }
-      });
+      goto(href);
       return;
     } else if (key === "Enter") {
       return;
