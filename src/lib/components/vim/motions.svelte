@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { afterNavigate, goto } from "$app/navigation";
   import { activeVimElement } from "$lib/stores";
   import {
     getClosestElementFromLine,
@@ -6,15 +7,34 @@
   } from "$lib/utils";
   import { onMount } from "svelte";
 
+  const backgroundColor = "black";
+
   $: {
     if ($activeVimElement.selected) {
-      console.log("changing colors");
-      $activeVimElement.selected.style.backgroundColor = "black";
+      $activeVimElement.selected.style.backgroundColor = backgroundColor;
     }
   }
 
+  onMount(() => {
+    document.addEventListener("keydown", handleKey);
+  });
+
+  afterNavigate(() => {
+    if ($activeVimElement.selected) {
+      const newId = $activeVimElement.selected.id;
+      $activeVimElement.selected = document.getElementById(newId);
+      const { leftElement, downElement, upElement, rightElement } =
+        getElementSurroundings($activeVimElement.selected!);
+      $activeVimElement.left = leftElement;
+      $activeVimElement.down = downElement;
+      $activeVimElement.up = upElement;
+      $activeVimElement.right = rightElement;
+    }
+  });
+
   const handleKey = (event: KeyboardEvent) => {
     const key = event.key;
+
     if (key === "Escape" && $activeVimElement.selected) {
       $activeVimElement.selected.style.backgroundColor = "";
       activeVimElement.set({
@@ -25,13 +45,26 @@
         right: null,
       });
       return;
+    } else if (key === "Escape") {
+      return;
+    }
+
+    if (key === "Enter" && $activeVimElement.selected) {
+      const href = $activeVimElement.selected.getAttribute("href")!;
+      goto(href).then(() => {
+        if ($activeVimElement.selected) {
+          $activeVimElement.selected.style.backgroundColor = backgroundColor;
+        }
+      });
+      return;
+    } else if (key === "Enter") {
+      return;
     }
 
     if (
       !$activeVimElement.selected &&
       (key === "h" || key === "j" || key === "k" || key === "l")
     ) {
-      console.log("initializing");
       const selected = document.getElementById("nav-jason-kwok")!;
       // horizontal line to the right of selected element
       const { top, left, right, bottom } = selected.getBoundingClientRect();
@@ -69,7 +102,6 @@
       return;
     }
 
-    console.log("changing");
     switch (key) {
       case "h":
         const left = $activeVimElement.left;
@@ -79,7 +111,6 @@
         break;
 
       case "j":
-        console.log("j");
         const down = $activeVimElement.down;
         if (!down) return;
         $activeVimElement.selected!.style.backgroundColor = "";
@@ -107,10 +138,6 @@
     $activeVimElement.up = upElement;
     $activeVimElement.right = rightElement;
   };
-
-  onMount(() => {
-    document.addEventListener("keydown", handleKey);
-  });
 </script>
 
 <slot />

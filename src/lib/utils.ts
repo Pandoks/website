@@ -213,8 +213,6 @@ export const getElementSurroundings = (element: HTMLElement) => {
     },
   }) as HTMLElement;
 
-  console.log(upElement);
-
   const rightElement = getClosestElementFromLine({
     startingPoint: { x: right, y: middley },
     endingPoint: { x: window.innerWidth, y: middley },
