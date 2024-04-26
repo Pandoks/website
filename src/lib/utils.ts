@@ -1,8 +1,9 @@
 // ordering of the returned list is left top most element to left bottom element to right most
-export const getElementsFromHorizontalLine = ({
+export const getElementsFromLine = ({
   startx,
   endx,
-  y,
+  starty,
+  endy,
   lookup,
 }: {
   startx: number;
@@ -62,4 +63,41 @@ export const getElementsFromHorizontalLine = ({
   }
 
   return elementList;
+};
+
+// Bresenham's line algorithm
+export const getPointsAlongLine = ({
+  startx,
+  endx,
+  starty,
+  endy,
+}: {
+  startx: number;
+  endx: number;
+  starty: number;
+  endy: number;
+}) => {
+  let points = [];
+  let dx = Math.abs(endx - startx);
+  let dy = Math.abs(endy - starty);
+  let sx = startx < endx ? 1 : -1;
+  let sy = starty < endy ? 1 : -1;
+  let err = dx - dy;
+
+  while (true) {
+    points.push({ x: startx, y: starty });
+
+    if (startx === endx && starty === endy) break;
+
+    let e2 = 2 * err;
+    if (e2 > -dy) {
+      err -= dy;
+      startx += sx;
+    }
+    if (e2 < dx) {
+      err += dx;
+      starty += sy;
+    }
+  }
+  return points;
 };
