@@ -21,7 +21,6 @@
   });
 
   afterNavigate(() => {
-    console.log($activeVimElement.selected);
     if ($activeVimElement.selected) {
       const newId = $activeVimElement.selected.id;
       $activeVimElement.selected = document.getElementById(newId);
@@ -32,26 +31,6 @@
       $activeVimElement.up = upElement;
       $activeVimElement.right = rightElement;
       return;
-    }
-
-    if (window.location.pathname === "/journal") {
-      console.log("in");
-      const jasonKwok = document.getElementById("nav-jason-kwok");
-      const { top, left, right, bottom } = jasonKwok!.getBoundingClientRect();
-      const startingPoint = { x: right, y: (top + bottom) / 2 };
-      const endingPoint = { x: window.innerWidth, y: (top + bottom) / 2 };
-
-      $activeVimElement.selected = getClosestElementFromLine({
-        startingPoint,
-        endingPoint,
-        inclusion: { classes: new Set(["timeline-item"]) },
-      }) as HTMLElement;
-      const { leftElement, downElement, upElement, rightElement } =
-        getElementSurroundings($activeVimElement.selected!);
-      $activeVimElement.left = leftElement;
-      $activeVimElement.down = downElement;
-      $activeVimElement.up = upElement;
-      $activeVimElement.right = rightElement;
     }
   });
 
@@ -87,7 +66,8 @@
     } else if (
       key === "Enter" &&
       $activeVimElement.selected &&
-      $activeVimElement.selected.querySelector("button")
+      $activeVimElement.selected.querySelector("button") &&
+      window.location.pathname === "/journal"
     ) {
       $activeVimElement.selected.querySelector("button")!.click();
       return;
