@@ -21,7 +21,6 @@
     } else {
       opened = [...opened, hash];
       goto("/journal#" + hash, {
-        replaceState: true,
         noScroll: true,
         keepFocus: true,
       });
@@ -50,10 +49,9 @@
     const url_hash = window.location.hash.slice(1);
 
     if (!opened.includes(element_hash!) && url_hash) {
-      goto("/journal", { replaceState: true, noScroll: true, keepFocus: true });
+      goto("/journal", { noScroll: true, keepFocus: true });
     } else if (opened.includes(element_hash!) && url_hash !== element_hash) {
       goto("/journal#" + element_hash, {
-        replaceState: true,
         noScroll: true,
         keepFocus: true,
       });

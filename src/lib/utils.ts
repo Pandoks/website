@@ -82,7 +82,6 @@ export const getClosestElementFromLine = ({
     classes?: Set<string>;
   };
 }) => {
-  console.log(inclusion);
   if (
     startingPoint.x < 0 ||
     startingPoint.x > window.innerWidth ||
@@ -130,8 +129,6 @@ export const getClosestElementFromLine = ({
       if (hasExcludedId || hasExcludedClass) {
         continue;
       }
-
-      console.log(elements[i]);
 
       if (inclusion.ids && inclusion.ids.has(elements[i].id)) {
         return elements[i];
@@ -215,7 +212,6 @@ export const getElementSurroundings = (element: HTMLElement) => {
   const middlex = (left + right) / 2;
   const middley = (top + bottom) / 2;
 
-  console.log("left");
   const leftElement = getClosestElementFromLine({
     startingPoint: { x: left, y: middley },
     endingPoint: { x: 0, y: middley },
@@ -223,8 +219,6 @@ export const getElementSurroundings = (element: HTMLElement) => {
     exclusion: { ids: exclusiveIds },
   }) as HTMLElement;
 
-  console.log("down");
-  console.log(window.innerHeight);
   const downElement = getClosestElementFromLine({
     startingPoint: { x: middlex, y: bottom },
     endingPoint: { x: middlex, y: window.innerHeight },
@@ -232,7 +226,6 @@ export const getElementSurroundings = (element: HTMLElement) => {
     exclusion: { ids: exclusiveIds },
   }) as HTMLElement;
 
-  console.log("up");
   const upElement = getClosestElementFromLine({
     startingPoint: { x: middlex, y: top },
     endingPoint: { x: middlex, y: 0 },
@@ -240,7 +233,6 @@ export const getElementSurroundings = (element: HTMLElement) => {
     exclusion: { ids: exclusiveIds },
   }) as HTMLElement;
 
-  console.log("right");
   const rightElement = getClosestElementFromLine({
     startingPoint: { x: right, y: middley },
     endingPoint: { x: window.innerWidth, y: middley },
