@@ -30,7 +30,7 @@
   onMount(() => {
     document.addEventListener("keydown", handleKey);
     document.addEventListener("click", resetVim);
-    document.addEventListener("scroll", resetVim);
+    document.addEventListener("scroll", handleScroll);
   });
 
   afterNavigate(() => {
@@ -47,6 +47,15 @@
       return;
     }
   });
+
+  const handleScroll = () => {
+    const { leftElement, downElement, upElement, rightElement } =
+      getElementSurroundings($activeVimElement.selected!);
+    $activeVimElement.left = leftElement;
+    $activeVimElement.down = downElement;
+    $activeVimElement.up = upElement;
+    $activeVimElement.right = rightElement;
+  };
 
   const resetVim = () => {
     if ($activeVimElement.selected) {

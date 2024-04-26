@@ -173,7 +173,7 @@ export const getClosestElementForElement = ({
           startingPoint: positiveDeltaStartingPoint,
           endingPoint: positiveDeltaEndingPoint,
           excludedIds: new Set([element.id]),
-        }) as HTMLElement;
+        });
         if (closestPositiveDeltaElement) {
           return closestPositiveDeltaElement;
         }
@@ -290,38 +290,31 @@ export const getPointsAlongLine = ({
 };
 
 export const getElementSurroundings = (element: HTMLElement) => {
-  const { top, bottom, left, right } = element.getBoundingClientRect();
-  const width = right - left;
-  const height = bottom - top;
+  const INTERVAL = 10;
 
   const leftElement = getClosestElementForElement({
     element: element,
-    interval: width / 10,
+    interval: INTERVAL,
     direction: "left",
   });
 
   const downElement = getClosestElementForElement({
     element: element,
-    interval: height / 10,
+    interval: INTERVAL,
     direction: "down",
   });
 
   const upElement = getClosestElementForElement({
     element: element,
-    interval: height / 10,
+    interval: INTERVAL,
     direction: "up",
   });
 
   const rightElement = getClosestElementForElement({
     element: element,
-    interval: height / 10,
+    interval: INTERVAL,
     direction: "right",
   });
-
-  console.log("left: ", leftElement);
-  console.log("down: ", downElement);
-  console.log("up: ", upElement);
-  console.log("right; ", rightElement);
 
   return { leftElement, downElement, upElement, rightElement };
 };
