@@ -9,9 +9,23 @@
 
   const backgroundColor = "black";
 
+  const selectVimStyle = (element: HTMLElement) => {
+    if (!element) {
+      return;
+    }
+    element.style.backgroundColor = "#CDD6F4";
+  };
+
+  const resetVimStyle = (element: HTMLElement) => {
+    if (!element) {
+      return;
+    }
+    element.style.backgroundColor = "";
+  };
+
   $: {
     if ($activeVimElement.selected) {
-      $activeVimElement.selected.style.backgroundColor = backgroundColor;
+      selectVimStyle($activeVimElement.selected);
     }
   }
 
@@ -47,7 +61,7 @@
 
   const resetVim = () => {
     if ($activeVimElement.selected) {
-      $activeVimElement.selected.style.backgroundColor = "";
+      resetVimStyle($activeVimElement.selected!);
       activeVimElement.set({
         selected: null,
         left: null,
@@ -136,28 +150,28 @@
       case "h":
         const left = $activeVimElement.left;
         if (!left) return;
-        $activeVimElement.selected!.style.backgroundColor = "";
+        resetVimStyle($activeVimElement.selected!);
         $activeVimElement.selected = left;
         break;
 
       case "j":
         const down = $activeVimElement.down;
         if (!down) return;
-        $activeVimElement.selected!.style.backgroundColor = "";
+        resetVimStyle($activeVimElement.selected!);
         $activeVimElement.selected = down;
         break;
 
       case "k":
         const up = $activeVimElement.up;
         if (!up) return;
-        $activeVimElement.selected!.style.backgroundColor = "";
+        resetVimStyle($activeVimElement.selected!);
         $activeVimElement.selected = up;
         break;
 
       case "l":
         const right = $activeVimElement.right;
         if (!right) return;
-        $activeVimElement.selected!.style.backgroundColor = "";
+        resetVimStyle($activeVimElement.selected!);
         $activeVimElement.selected = right;
         break;
 
