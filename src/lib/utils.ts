@@ -187,63 +187,60 @@ export const getPointsAlongLine = ({
 };
 
 export const getElementSurroundings = (element: HTMLElement) => {
-  let classes = new Set<string>();
-  console.log("test:", window.location.pathname);
-  switch (window.location.pathname) {
-    case "/socials":
-      classes.add("social-link");
-      break;
-    case "/essays":
-      classes.add("essay-link");
-      break;
-    case "/journal":
-      classes.add("timeline-item");
-  }
-  console.log(classes);
-
-  const { top, left, right, bottom } = element.getBoundingClientRect();
-  const middlex = (left + right) / 2;
-  const middley = (top + bottom) / 2;
-
-  const idSet = new Set([
+  const inclusiveIds = new Set([
     "nav-jason-kwok",
     "nav-socials",
     "nav-essays",
     "nav-journal",
   ]);
-  idSet.delete(element.id);
+  inclusiveIds.delete(element.id);
+
+  let inclusiveClasses = new Set<string>();
+  console.log("test:", window.location.pathname);
+  switch (window.location.pathname) {
+    case "/socials":
+      inclusiveClasses.add("social-link");
+      break;
+    case "/essays":
+      inclusiveClasses.add("essay-link");
+      break;
+    case "/journal":
+      inclusiveClasses.add("timeline-item");
+  }
+
+  const { top, left, right, bottom } = element.getBoundingClientRect();
+  const middlex = (left + right) / 2;
+  const middley = (top + bottom) / 2;
+
+  const exclusiveIds = new Set([element.id]);
 
   const leftElement = getClosestElementFromLine({
     startingPoint: { x: left, y: middley },
     endingPoint: { x: 0, y: middley },
-    inclusion: { ids: idSet, classes: classes },
+    inclusion: { ids: inclusiveIds, classes: inclusiveClasses },
+    exclusion: { ids: exclusiveIds },
   }) as HTMLElement;
 
   const downElement = getClosestElementFromLine({
     startingPoint: { x: middlex, y: bottom },
     endingPoint: { x: middlex, y: window.innerHeight },
-    inclusion: {
-      ids: idSet,
-      classes: classes,
-    },
+    inclusion: { ids: inclusiveIds, classes: inclusiveClasses },
+    exclusion: { ids: exclusiveIds },
   }) as HTMLElement;
 
   const upElement = getClosestElementFromLine({
     startingPoint: { x: middlex, y: top + 1 },
     endingPoint: { x: middlex, y: 0 },
-    inclusion: {
-      ids: idSet,
-      classes: classes,
-    },
+    inclusion: { ids: inclusiveIds, classes: inclusiveClasses },
+    exclusion: { ids: exclusiveIds },
   }) as HTMLElement;
 
   console.log("right");
   const rightElement = getClosestElementFromLine({
     startingPoint: { x: right, y: middley },
     endingPoint: { x: window.innerWidth, y: middley },
-    inclusion: {
-      classes: classes,
-    },
+    inclusion: { ids: inclusiveIds, classes: inclusiveClasses },
+    exclusion: { ids: exclusiveIds },
   }) as HTMLElement;
 
   return { leftElement, downElement, upElement, rightElement };
