@@ -49,6 +49,24 @@
   });
 
   const handleScroll = () => {
+    if (
+      $activeVimElement.selected &&
+      (window.location.pathname === "/journal" ||
+        window.location.pathname === "/journal/")
+    ) {
+      $activeVimElement.left = getClosestElementForElement({
+        element: $activeVimElement.selected,
+        interval: 10,
+        direction: "left",
+      });
+
+      $activeVimElement.up = $activeVimElement.selected
+        .previousElementSibling as HTMLElement;
+      $activeVimElement.down = $activeVimElement.selected
+        .nextElementSibling as HTMLElement;
+      return;
+    }
+
     const { leftElement, downElement, upElement, rightElement } =
       getElementSurroundings($activeVimElement.selected!);
     $activeVimElement.left = leftElement;
@@ -187,21 +205,10 @@
         direction: "left",
       });
 
-      const { top, bottom, left, right } =
-        $activeVimElement.selected.getBoundingClientRect();
-      const middlex = (left + right) / 2;
-      const excludedIds = new Set([$activeVimElement.selected.id]);
-
-      $activeVimElement.up = getClosestElementFromLine({
-        startingPoint: { x: middlex, y: top },
-        endingPoint: { x: middlex, y: 0 },
-        excludedIds: excludedIds,
-      });
-      $activeVimElement.down = getClosestElementFromLine({
-        startingPoint: { x: middlex, y: bottom },
-        endingPoint: { x: middlex, y: window.innerHeight },
-        excludedIds: excludedIds,
-      });
+      $activeVimElement.up = $activeVimElement.selected
+        .previousElementSibling as HTMLElement;
+      $activeVimElement.down = $activeVimElement.selected
+        .nextElementSibling as HTMLElement;
     } else {
       const { leftElement, downElement, upElement, rightElement } =
         getElementSurroundings($activeVimElement.selected!);
