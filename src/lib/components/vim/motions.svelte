@@ -2,9 +2,7 @@
   import { afterNavigate, goto } from "$app/navigation";
   import { activeVimElement } from "$lib/stores";
   import {
-    addYank,
     getClosestElementForElement,
-    getClosestElementFromLine,
     getElementSurroundings,
   } from "$lib/components/vim/motions";
   import { onMount } from "svelte";
@@ -32,7 +30,6 @@
 
   onMount(() => {
     document.addEventListener("keydown", handleKey);
-    addYank();
   });
 
   afterNavigate(() => {
@@ -124,7 +121,11 @@
       $activeVimElement.down = downElement;
       $activeVimElement.up = upElement;
       $activeVimElement.right = rightElement;
+      return;
+    }
 
+    if (key === "y") {
+      navigator.clipboard.writeText(window.location.href);
       return;
     }
 
