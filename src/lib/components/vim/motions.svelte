@@ -1,6 +1,10 @@
 <script lang="ts">
   import { activeVimElement } from "$lib/stores";
-  import { findClosestElementOnLine, getElementsFromLine } from "$lib/utils";
+  import {
+    findClosestElementOnLine,
+    getClosestElementFromLine,
+    getElementsFromLine,
+  } from "$lib/utils";
   import { onMount } from "svelte";
 
   export let element: string;
@@ -61,9 +65,17 @@
     switch (window.location.pathname) {
       case "socials":
         if (key === "h") {
-          const left = $activeVimElement.left;
+          const leftElement = $activeVimElement.left;
+          if (!leftElement) return;
+          const { top, left, right, bottom } =
+            leftElement.getBoundingClientRect();
         }
         $activeVimElement.right = findClosestElementOnLine({
+          startingPoint,
+          endingPoint,
+          lookup: { classes: new Set(["social-link"]) },
+        }) as HTMLElement;
+        $activeVimElement.right = getClosestElementFromLine({
           startingPoint,
           endingPoint,
           lookup: { classes: new Set(["social-link"]) },

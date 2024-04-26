@@ -162,34 +162,3 @@ export const getPointsAlongLine = ({
   }
   return points;
 };
-
-// ordered by closest elements to starting point
-export const findClosestElementOnLine = ({
-  startingPoint,
-  endingPoint,
-  lookup,
-}: {
-  startingPoint: { x: number; y: number };
-  endingPoint: { x: number; y: number };
-  lookup?: {
-    ids?: Set<string>;
-    classes?: Set<string>;
-  };
-}) => {
-  if (!lookup) {
-    const detectedLines = getElementsFromLine({
-      startingPoint,
-      endingPoint,
-    });
-
-    return detectedLines[0];
-  }
-
-  const detectedLines = getElementsFromLine({
-    startingPoint,
-    endingPoint,
-    lookup,
-  });
-
-  return detectedLines[0];
-};
