@@ -41,27 +41,87 @@ export const getElementsFromLine = ({
       if (lookupElements.has(elements[i])) {
         continue;
       }
+      lookupElements.add(elements[i]);
 
       if (!lookup || (!lookup.ids && !lookup.classes)) {
-        lookupElements.add(elements[i]);
         elementList.push(elements[i]);
         continue;
       }
 
       if (lookup.ids && lookup.ids.has(elements[i].id)) {
-        lookupElements.add(elements[i]);
         elementList.push(elements[i]);
         continue;
       }
 
       if (lookup.classes && lookup.classes.has(elements[i].className)) {
-        lookupElements.add(elements[i]);
         elementList.push(elements[i]);
       }
     }
   }
 
   return elementList;
+};
+
+export const getClosestElementFromLine = ({
+  startingPoint,
+  endingPoint,
+  lookup,
+}: {
+  startingPoint: { x: number; y: number };
+  endingPoint: { x: number; y: number };
+  lookup?: {
+    ids?: Set<string>;
+    classes?: Set<string>;
+  };
+}) => {
+  if (
+    startingPoint.x < 0 ||
+    startingPoint.x > window.innerWidth ||
+    endingPoint.x < 0 ||
+    endingPoint.x > window.innerWidth ||
+    startingPoint.y < 0 ||
+    startingPoint.y > window.innerHeight ||
+    endingPoint.y < 0 ||
+    endingPoint.y > window.innerHeight
+  ) {
+    throw new Error("Coordinates need to be within the window size");
+  }
+
+  if (!lookup || (!lookup.ids && !lookup.classes)) {
+    return document.elementFromPoint(startingPoint.x, startingPoint.y);
+  }
+
+  const linePoints = getPointsAlongLine({ startingPoint, endingPoint });
+
+  const lookupElements = new Set();
+  const cacheElementList = new Set();
+
+  for (let i = 0; i < linePoints.length; i++) {
+    const { x, y } = linePoints[i];
+    const elements = document.elementsFromPoint(x, y);
+    if (cacheElementList.has(elements)) {
+      continue;
+    }
+
+    cacheElementList.add(elements);
+
+    for (let i = 0; i < elements.length; i++) {
+      if (lookupElements.has(elements[i])) {
+        continue;
+      }
+      lookupElements.add(elements[i]);
+
+      if (lookup.ids && lookup.ids.has(elements[i].id)) {
+        return elements[i];
+      }
+
+      if (lookup.classes && lookup.classes.has(elements[i].className)) {
+        return elements[i];
+      }
+    }
+  }
+
+  return null;
 };
 
 // Bresenham's line algorithm

@@ -7,6 +7,16 @@
 
   const handleKey = (event: KeyboardEvent) => {
     const key = event.key;
+    if (key === "Escape") {
+      activeVimElement.set({
+        selected: null,
+        left: null,
+        down: null,
+        up: null,
+        right: null,
+      });
+      return;
+    }
     if (
       !$activeVimElement.selected &&
       (key === "h" || key === "j" || key === "k" || key === "l")
@@ -48,6 +58,35 @@
       return;
     }
 
+    switch (window.location.pathname) {
+      case "socials":
+        if (key === "h") {
+          const left = $activeVimElement.left;
+        }
+        $activeVimElement.right = findClosestElementOnLine({
+          startingPoint,
+          endingPoint,
+          lookup: { classes: new Set(["social-link"]) },
+        }) as HTMLElement;
+        break;
+
+      case "essays":
+        $activeVimElement.right = findClosestElementOnLine({
+          startingPoint,
+          endingPoint,
+          lookup: { classes: new Set(["essay-link"]) },
+        }) as HTMLElement;
+        break;
+
+      case "journal":
+        $activeVimElement.right = findClosestElementOnLine({
+          startingPoint,
+          endingPoint,
+          lookup: { classes: new Set(["timeline-item"]) },
+        }) as HTMLElement;
+        break;
+    }
+
     switch (key) {
       case "h":
         const left = $activeVimElement.left;
@@ -57,15 +96,6 @@
       case "j":
       case "k":
       case "l":
-      case "Escape":
-        activeVimElement.set({
-          selected: null,
-          left: null,
-          down: null,
-          up: null,
-          right: null,
-        });
-        break;
     }
   };
 
