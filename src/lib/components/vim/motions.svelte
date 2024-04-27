@@ -37,6 +37,27 @@
     if ($activeVimElement.selected) {
       const newId = $activeVimElement.selected.id;
       $activeVimElement.selected = document.getElementById(newId);
+
+      if (
+        $activeVimElement.selected &&
+        $activeVimElement.selected.className.includes("timeline-item") &&
+        (window.location.pathname === "/journal" ||
+          window.location.pathname === "/journal/")
+      ) {
+        $activeVimElement.left = getClosestElementForElement({
+          element: $activeVimElement.selected,
+          interval: 10,
+          direction: "left",
+        });
+
+        $activeVimElement.up = $activeVimElement.selected
+          .previousElementSibling as HTMLElement;
+        $activeVimElement.down = $activeVimElement.selected
+          .nextElementSibling as HTMLElement;
+
+        return;
+      }
+
       const { leftElement, downElement, upElement, rightElement } =
         getElementSurroundings($activeVimElement.selected!);
       $activeVimElement.left = leftElement;
@@ -68,6 +89,7 @@
       return;
     }
 
+    console.log("outside");
     const { leftElement, downElement, upElement, rightElement } =
       getElementSurroundings($activeVimElement.selected!);
     $activeVimElement.left = leftElement;
