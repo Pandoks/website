@@ -14,12 +14,18 @@
 >
   {#each links as link}
     {#if link.href.slice(1) === $page.url.pathname.split("/")[1]}
-      <a id={link.id} class="text-black hover:text-gray-600" href={link.href}
-        >{link.text}</a
+      <a
+        id={link.id}
+        class="text-black hover:text-gray-600"
+        data-sveltekit-preload-code="eager"
+        href={link.href}>{link.text}</a
       >
     {:else}
-      <a id={link.id} class="hover:text-gray-400" href={link.href}
-        >{link.text}</a
+      <a
+        id={link.id}
+        class="hover:text-gray-400"
+        data-sveltekit-preload-code="eager"
+        href={link.href}>{link.text}</a
       >
     {/if}
   {/each}
