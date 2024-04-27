@@ -3,7 +3,6 @@
   import { activeVimElement } from "$lib/stores";
   import {
     getClosestElementForElement,
-    getClosestElementFromLine,
     getElementSurroundings,
   } from "$lib/components/vim/motions";
   import { onMount } from "svelte";
@@ -51,9 +50,11 @@
   const handleScroll = () => {
     if (
       $activeVimElement.selected &&
+      $activeVimElement.selected.className.includes("timeline-item") &&
       (window.location.pathname === "/journal" ||
         window.location.pathname === "/journal/")
     ) {
+      console.log("inside");
       $activeVimElement.left = getClosestElementForElement({
         element: $activeVimElement.selected,
         interval: 10,
@@ -128,19 +129,30 @@
       key === "Enter" &&
       $activeVimElement.selected &&
       $activeVimElement.selected.querySelector("button") &&
+      $activeVimElement.selected.className.includes("timeline-item") &&
       (window.location.pathname === "/journal" ||
         window.location.pathname === "/journal/")
     ) {
       const savedActiveElementId = $activeVimElement.selected.id;
+
+      document.removeEventListener("scroll", handleScroll);
       $activeVimElement.selected.querySelector("button")!.click();
+      document.addEventListener("scroll", handleScroll);
+
       const activeElement = document.getElementById(savedActiveElementId)!;
       $activeVimElement.selected = activeElement;
-      const { leftElement, downElement, upElement, rightElement } =
-        getElementSurroundings($activeVimElement.selected!);
-      $activeVimElement.left = leftElement;
-      $activeVimElement.down = downElement;
-      $activeVimElement.up = upElement;
-      $activeVimElement.right = rightElement;
+
+      $activeVimElement.left = getClosestElementForElement({
+        element: $activeVimElement.selected,
+        interval: 10,
+        direction: "left",
+      });
+
+      $activeVimElement.up = $activeVimElement.selected
+        .previousElementSibling as HTMLElement;
+      $activeVimElement.down = $activeVimElement.selected
+        .nextElementSibling as HTMLElement;
+
       return;
     }
 
