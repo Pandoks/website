@@ -49,6 +49,7 @@
           interval: 10,
           direction: "left",
         });
+        $activeVimElement.right = null;
 
         $activeVimElement.up = $activeVimElement.selected
           .previousElementSibling as HTMLElement;
@@ -75,12 +76,12 @@
       (window.location.pathname === "/journal" ||
         window.location.pathname === "/journal/")
     ) {
-      console.log("inside");
       $activeVimElement.left = getClosestElementForElement({
         element: $activeVimElement.selected,
         interval: 10,
         direction: "left",
       });
+      $activeVimElement.right = null;
 
       $activeVimElement.up = $activeVimElement.selected
         .previousElementSibling as HTMLElement;
@@ -89,7 +90,6 @@
       return;
     }
 
-    console.log("outside");
     const { leftElement, downElement, upElement, rightElement } =
       getElementSurroundings($activeVimElement.selected!);
     $activeVimElement.left = leftElement;
@@ -169,6 +169,7 @@
         interval: 10,
         direction: "left",
       });
+      $activeVimElement.right = null;
 
       $activeVimElement.up = $activeVimElement.selected
         .previousElementSibling as HTMLElement;
@@ -238,6 +239,7 @@
         interval: 10,
         direction: "left",
       });
+      $activeVimElement.right = null;
 
       $activeVimElement.up = $activeVimElement.selected
         .previousElementSibling as HTMLElement;
