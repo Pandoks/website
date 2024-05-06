@@ -1,5 +1,5 @@
 <div class="text-xs text-[#2b2b2b]">
-  <p>Hi. I'm me and this is my journey.</p>
+  <p>Hi. I'm me and this is my journey to becoming a fool.</p>
 </div>
 
 <svelte:head>
