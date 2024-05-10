@@ -4,7 +4,7 @@
   export let links = [
     { text: "Jason Kwok", href: "/", id: "nav-jason-kwok" },
     { text: "Socials", href: "/socials", id: "nav-socials" },
-    { text: "Essays", href: "/essays", id: "nav-essays" },
+    // { text: "Essays", href: "/essays", id: "nav-essays" },
     { text: "Journal", href: "/journal", id: "nav-journal" },
   ];
 </script>
