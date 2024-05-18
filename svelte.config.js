@@ -1,6 +1,8 @@
 import adapter from "@sveltejs/adapter-static";
 import { vitePreprocess } from "@sveltejs/kit/vite";
 import { escapeSvelte, mdsvex } from "mdsvex";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex-svelte";
 import shiki from "shiki";
 
 /** Shiki code colorscheme for mdsvex */
@@ -18,6 +20,8 @@ const mdsvexConfig = {
   highlight: {
     highlighter: colorScheme,
   },
+  remarkPlugins: [remarkMath],
+  rehypePlugins: [rehypeKatex],
 };
 
 /** @type {import('@sveltejs/kit').Config} */
