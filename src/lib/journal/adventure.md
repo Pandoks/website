@@ -13,3 +13,7 @@ in fairy tales, heroes embark on adventures through a calling, you must listen t
 adventure and take action. An adventure that you really resonate with. An adventure that you truly
 want and not something that you've convinced yourself you want because of other people. Be selfish.
 Listen to your inner flame and fuel it with everything you got.
+
+$$
+x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}
+$$
