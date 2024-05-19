@@ -6,6 +6,7 @@
     { text: "Socials", href: "/socials", id: "nav-socials" },
     // { text: "Essays", href: "/essays", id: "nav-essays" },
     { text: "Journal", href: "/journal", id: "nav-journal" },
+    { text: "Store", href: "/store", id: "nav-store" },
   ];
 </script>
 
