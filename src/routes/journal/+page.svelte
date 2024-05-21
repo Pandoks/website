@@ -116,7 +116,7 @@
 {/if}
 
 <svelte:head>
-  <title>Jason Kwok Journal</title>
+  <title>Jason Kwok's Journal</title>
   <meta
     name="Jason Kwok's Journal"
     content="A journal for Jason Kwok that talks about his day to day thoughts"
