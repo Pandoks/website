@@ -1,1 +1,2 @@
 - [ ] Speed up journal vim controls
+- [ ] Fix link sharing and redirecting
