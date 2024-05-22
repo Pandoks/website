@@ -12,7 +12,7 @@ marvelously, but recently, I've been really getting in touch with art.
 
 I've always enjoyed art, but I guess I just went on a really long side quest into engineering and
 made the venture back home. I've gained a different perspective though. True art is when great
-engineering meets art.
+engineering meets design.
 
 A great example of this is Porsche. Their cars are the pinnacle of mechanical engineering, yet
 their cars themselves are also pieces of timeless art.
