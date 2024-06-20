@@ -1,4 +1,7 @@
+<!-- Lazy to find the max width of the div that the svg is in, but it should span the entire width -->
+<img src="/icons/pandoks.svg" alt="Pandoks logo" class="w-[1000000px]" />
 <div class="text-xs text-[#2b2b2b]">
+  <p class="text-white">It has something to do with home decor ;)</p>
   <p>Coming soon...</p>
 </div>
 
