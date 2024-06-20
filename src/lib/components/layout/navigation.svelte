@@ -7,6 +7,11 @@
     // { text: "Essays", href: "/essays", id: "nav-essays" },
     { text: "Journal", href: "/journal", id: "nav-journal" },
     { text: "Store", href: "/store", id: "nav-store" },
+    {
+      text: "Facade",
+      href: "https://forms.gle/W34UoHFcH4RuDgaB7",
+      id: "nav-facade",
+    },
   ];
 </script>
 
