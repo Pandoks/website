@@ -45,10 +45,12 @@ export const getClosestElementForElement = ({
   element,
   interval,
   direction,
+  range,
 }: {
   element: HTMLElement;
   interval: number;
   direction: "left" | "down" | "up" | "right";
+  range: number;
 }) => {
   const { top, bottom, left, right } = element.getBoundingClientRect();
 
@@ -90,11 +92,15 @@ export const getClosestElementForElement = ({
     return closestElement;
   }
 
+  let count = 0;
   if (horizontal) {
     let positiveDeltaPointY = startingPoint.y + interval;
     let negativeDeltaPointY = startingPoint.y - interval;
 
-    while (positiveDeltaPointY <= bottom || negativeDeltaPointY >= top) {
+    while (
+      count <= range &&
+      (positiveDeltaPointY <= bottom || negativeDeltaPointY >= top)
+    ) {
       if (positiveDeltaPointY <= bottom) {
         const positiveDeltaStartingPoint = {
           x: startingPoint.x,
@@ -135,12 +141,16 @@ export const getClosestElementForElement = ({
 
       positiveDeltaPointY += interval;
       negativeDeltaPointY -= interval;
+      count++;
     }
   } else if (vertical) {
     let positiveDeltaPointX = startingPoint.x + interval;
     let negativeDeltaPointX = startingPoint.x - interval;
 
-    while (positiveDeltaPointX <= right || negativeDeltaPointX >= left) {
+    while (
+      count <= range &&
+      (positiveDeltaPointX <= right || negativeDeltaPointX >= left)
+    ) {
       if (positiveDeltaPointX <= right) {
         const positiveDeltaStartingPoint = {
           x: positiveDeltaPointX,
@@ -181,6 +191,7 @@ export const getClosestElementForElement = ({
 
       positiveDeltaPointX += interval;
       negativeDeltaPointX -= interval;
+      count++;
     }
   }
 

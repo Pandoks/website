@@ -48,6 +48,7 @@
           element: $activeVimElement.selected,
           interval: 10,
           direction: "left",
+          range: 100,
         });
         $activeVimElement.right = null;
 
@@ -80,6 +81,7 @@
         element: $activeVimElement.selected,
         interval: 10,
         direction: "left",
+        range: 100,
       });
       $activeVimElement.right = null;
 
@@ -127,6 +129,7 @@
         element: selected,
         interval: INTERVAL,
         direction: "right",
+        range: 100,
       });
     }
   };
@@ -168,6 +171,7 @@
         element: $activeVimElement.selected,
         interval: 10,
         direction: "left",
+        range: 100,
       });
       $activeVimElement.right = null;
 
@@ -238,6 +242,7 @@
         element: $activeVimElement.selected,
         interval: 10,
         direction: "left",
+        range: 100,
       });
       $activeVimElement.right = null;
 
