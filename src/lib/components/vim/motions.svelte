@@ -7,6 +7,7 @@
   } from "$lib/components/vim/motions";
   import { onMount } from "svelte";
   import { scrollToView } from "$lib/journal/utils";
+  import { links } from "$lib/components/layout/links";
 
   const selectVimStyle = (element: HTMLElement) => {
     if (!element) {
@@ -44,12 +45,31 @@
         (window.location.pathname === "/journal" ||
           window.location.pathname === "/journal/")
       ) {
-        $activeVimElement.left = getClosestElementForElement({
-          element: $activeVimElement.selected,
-          interval: 10,
-          direction: "left",
-          range: 100,
-        });
+        const navigationElement = document.getElementsByTagName("nav")[0];
+        const { top: navigationTop, bottom: navigationBottom } =
+          navigationElement.getBoundingClientRect();
+        const { top: activeElementTop, bottom: activeElementBottom } =
+          $activeVimElement.selected.getBoundingClientRect();
+        const activeElementMiddleY =
+          (activeElementTop + activeElementBottom) / 2;
+
+        if (activeElementMiddleY > navigationBottom) {
+          const lastNavigationItemId = links.slice(-1)[0]["id"];
+          $activeVimElement.left =
+            document.getElementById(lastNavigationItemId);
+        } else if (activeElementMiddleY < navigationTop) {
+          const firstNavigationItemId = links[0]["id"];
+          $activeVimElement.left = document.getElementById(
+            firstNavigationItemId,
+          );
+        } else {
+          $activeVimElement.left = getClosestElementForElement({
+            element: $activeVimElement.selected,
+            interval: 10,
+            direction: "left",
+            range: 100,
+          });
+        }
         $activeVimElement.right = null;
 
         $activeVimElement.up = $activeVimElement.selected
@@ -77,12 +97,27 @@
       (window.location.pathname === "/journal" ||
         window.location.pathname === "/journal/")
     ) {
-      $activeVimElement.left = getClosestElementForElement({
-        element: $activeVimElement.selected,
-        interval: 10,
-        direction: "left",
-        range: 100,
-      });
+      const navigationElement = document.getElementsByTagName("nav")[0];
+      const { top: navigationTop, bottom: navigationBottom } =
+        navigationElement.getBoundingClientRect();
+      const { top: activeElementTop, bottom: activeElementBottom } =
+        $activeVimElement.selected.getBoundingClientRect();
+      const activeElementMiddleY = (activeElementTop + activeElementBottom) / 2;
+
+      if (activeElementMiddleY > navigationBottom) {
+        const lastNavigationItemId = links.slice(-1)[0]["id"];
+        $activeVimElement.left = document.getElementById(lastNavigationItemId);
+      } else if (activeElementMiddleY < navigationTop) {
+        const firstNavigationItemId = links[0]["id"];
+        $activeVimElement.left = document.getElementById(firstNavigationItemId);
+      } else {
+        $activeVimElement.left = getClosestElementForElement({
+          element: $activeVimElement.selected,
+          interval: 10,
+          direction: "left",
+          range: 100,
+        });
+      }
       $activeVimElement.right = null;
 
       $activeVimElement.up = $activeVimElement.selected
@@ -167,12 +202,27 @@
       const activeElement = document.getElementById(savedActiveElementId)!;
       $activeVimElement.selected = activeElement;
 
-      $activeVimElement.left = getClosestElementForElement({
-        element: $activeVimElement.selected,
-        interval: 10,
-        direction: "left",
-        range: 100,
-      });
+      const navigationElement = document.getElementsByTagName("nav")[0];
+      const { top: navigationTop, bottom: navigationBottom } =
+        navigationElement.getBoundingClientRect();
+      const { top: activeElementTop, bottom: activeElementBottom } =
+        $activeVimElement.selected.getBoundingClientRect();
+      const activeElementMiddleY = (activeElementTop + activeElementBottom) / 2;
+
+      if (activeElementMiddleY > navigationBottom) {
+        const lastNavigationItemId = links.slice(-1)[0]["id"];
+        $activeVimElement.left = document.getElementById(lastNavigationItemId);
+      } else if (activeElementMiddleY < navigationTop) {
+        const firstNavigationItemId = links[0]["id"];
+        $activeVimElement.left = document.getElementById(firstNavigationItemId);
+      } else {
+        $activeVimElement.left = getClosestElementForElement({
+          element: $activeVimElement.selected,
+          interval: 10,
+          direction: "left",
+          range: 100,
+        });
+      }
       $activeVimElement.right = null;
 
       $activeVimElement.up = $activeVimElement.selected
@@ -238,12 +288,27 @@
       scrollToView($activeVimElement.selected);
       document.addEventListener("scroll", handleScroll);
 
-      $activeVimElement.left = getClosestElementForElement({
-        element: $activeVimElement.selected,
-        interval: 10,
-        direction: "left",
-        range: 100,
-      });
+      const navigationElement = document.getElementsByTagName("nav")[0];
+      const { top: navigationTop, bottom: navigationBottom } =
+        navigationElement.getBoundingClientRect();
+      const { top: activeElementTop, bottom: activeElementBottom } =
+        $activeVimElement.selected.getBoundingClientRect();
+      const activeElementMiddleY = (activeElementTop + activeElementBottom) / 2;
+
+      if (activeElementMiddleY > navigationBottom) {
+        const lastNavigationItemId = links.slice(-1)[0]["id"];
+        $activeVimElement.left = document.getElementById(lastNavigationItemId);
+      } else if (activeElementMiddleY < navigationTop) {
+        const firstNavigationItemId = links[0]["id"];
+        $activeVimElement.left = document.getElementById(firstNavigationItemId);
+      } else {
+        $activeVimElement.left = getClosestElementForElement({
+          element: $activeVimElement.selected,
+          interval: 10,
+          direction: "left",
+          range: 100,
+        });
+      }
       $activeVimElement.right = null;
 
       $activeVimElement.up = $activeVimElement.selected
