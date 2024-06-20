@@ -237,7 +237,7 @@ export const getPointsAlongLine = ({
 
 export const getElementSurroundings = (element: HTMLElement) => {
   const INTERVAL = 10;
-  const range = 25;
+  const range = 15;
 
   const leftElement = getClosestElementForElement({
     element: element,

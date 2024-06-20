@@ -67,7 +67,7 @@
             element: $activeVimElement.selected,
             interval: 10,
             direction: "left",
-            range: 100,
+            range: 50,
           });
         }
         $activeVimElement.right = null;
@@ -115,7 +115,7 @@
           element: $activeVimElement.selected,
           interval: 10,
           direction: "left",
-          range: 100,
+          range: 50,
         });
       }
       $activeVimElement.right = null;
@@ -164,7 +164,7 @@
         element: selected,
         interval: INTERVAL,
         direction: "right",
-        range: 100,
+        range: 50,
       });
     }
   };
@@ -220,7 +220,7 @@
           element: $activeVimElement.selected,
           interval: 10,
           direction: "left",
-          range: 100,
+          range: 50,
         });
       }
       $activeVimElement.right = null;
@@ -306,7 +306,7 @@
           element: $activeVimElement.selected,
           interval: 10,
           direction: "left",
-          range: 100,
+          range: 50,
         });
       }
       $activeVimElement.right = null;
