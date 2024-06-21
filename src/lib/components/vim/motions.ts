@@ -237,34 +237,34 @@ export const getPointsAlongLine = ({
 
 export const getElementSurroundings = (element: HTMLElement) => {
   const INTERVAL = 10;
-  const range = 15;
+  const RANGE = 15;
 
   const leftElement = getClosestElementForElement({
     element: element,
     interval: INTERVAL,
     direction: "left",
-    range: range,
+    range: RANGE,
   });
 
   const downElement = getClosestElementForElement({
     element: element,
     interval: INTERVAL,
     direction: "down",
-    range: range,
+    range: RANGE,
   });
 
   const upElement = getClosestElementForElement({
     element: element,
     interval: INTERVAL,
     direction: "up",
-    range: range,
+    range: RANGE,
   });
 
   const rightElement = getClosestElementForElement({
     element: element,
     interval: INTERVAL,
     direction: "right",
-    range: range,
+    range: RANGE,
   });
 
   return { leftElement, downElement, upElement, rightElement };
